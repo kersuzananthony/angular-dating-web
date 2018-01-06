@@ -38,7 +38,7 @@ export class AuthService implements AuthServiceInterface {
       });
   }
 
-  public register(model: RegistrationRequest): Observable<void> {
+  public register(model: RegistrationRequest): Observable<any> {
     return this._networkService.post(AuthService.ENDPOINT_REGISTER, model);
   }
 

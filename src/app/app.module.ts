@@ -11,13 +11,16 @@ import {RegisterComponent} from "./components/register/register.component";
 import {AUTH_SERVICE, AuthService} from "./services/auth.service";
 import {NETWORK_SERVICE, NetworkService} from "./services/network.service";
 import {STORAGE_SERVICE, StorageService} from "./services/storage.service";
+import {NETWORK_ERROR_HANDLER, NetworkErrorHandler} from "./services/network-error-handler.service";
+import {ModelStateErrorComponent} from "./components/model-state-error/model-state-error.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    ModelStateErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +31,10 @@ import {STORAGE_SERVICE, StorageService} from "./services/storage.service";
     {
       provide: NETWORK_SERVICE,
       useClass: NetworkService
+    },
+    {
+      provide: NETWORK_ERROR_HANDLER,
+      useClass: NetworkErrorHandler
     },
     {
       provide: STORAGE_SERVICE,
