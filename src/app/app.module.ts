@@ -3,6 +3,7 @@ import {Injector, NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {JwtModule} from "@auth0/angular-jwt";
+import {BsDropdownModule} from "ngx-bootstrap";
 
 import {AppComponent} from "./components/app/app.component";
 import {NavComponent} from "./components/nav/nav.component";
@@ -37,7 +38,8 @@ import {ServiceLocator} from "./service-locator";
         },
         whitelistedDomains: ["localhost:5000"]
       }
-    })
+    }),
+    BsDropdownModule.forRoot()
   ],
   providers: [
     {
