@@ -1,5 +1,5 @@
 import {BrowserModule} from "@angular/platform-browser";
-import {NgModule} from "@angular/core";
+import {Injector, NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 
@@ -13,6 +13,8 @@ import {NETWORK_SERVICE, NetworkService} from "./services/network.service";
 import {STORAGE_SERVICE, StorageService} from "./services/storage.service";
 import {NETWORK_ERROR_HANDLER, NetworkErrorHandler} from "./services/network-error-handler.service";
 import {ModelStateErrorComponent} from "./components/model-state-error/model-state-error.component";
+import {MESSAGE_SERVICE, MessageService} from "./services/message.service";
+import {ServiceLocator} from "./service-locator";
 
 @NgModule({
   declarations: [
@@ -43,9 +45,16 @@ import {ModelStateErrorComponent} from "./components/model-state-error/model-sta
     {
       provide: AUTH_SERVICE,
       useClass: AuthService
+    },
+    {
+      provide: MESSAGE_SERVICE,
+      useClass: MessageService
     }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(injector: Injector) {
+    ServiceLocator.setInjector(injector);
+  }
 }

@@ -25,14 +25,22 @@ export class RegisterComponent extends BaseComponent implements OnInit {
     this._clearError();
     this._authService.register(this.model)
       .subscribe(
-        () => this._clearForm(),
-        err => this._handleError(err)
+        () => this._onRegistrationSuccess(),
+        err => {
+          this._messageService.error("Some errors happened during the registration.");
+          this._handleError(err);
+        }
       );
   }
 
   public cancel() {
     this._clearForm();
     this.cancelRegister.emit(false);
+  }
+
+  private _onRegistrationSuccess() {
+    this._clearForm();
+    this._messageService.success("You have successfully signed up!");
   }
 
   private _clearForm() {

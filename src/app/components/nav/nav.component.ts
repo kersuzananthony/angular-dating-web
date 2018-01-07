@@ -1,17 +1,20 @@
 import {Component, Inject, OnInit} from "@angular/core";
 import {LoginRequest} from "../../models/requests/login-request.model";
 import {AUTH_SERVICE, AuthServiceInterface} from "../../services/auth.service";
+import {BaseComponent} from "../base.component";
 
 @Component({
   selector: "app-nav",
   templateUrl: "./nav.component.html",
   styleUrls: ["./nav.component.scss"]
 })
-export class NavComponent implements OnInit {
+export class NavComponent extends BaseComponent implements OnInit {
 
   model: LoginRequest = {};
 
-  constructor(@Inject(AUTH_SERVICE) private _authService: AuthServiceInterface) { }
+  constructor(@Inject(AUTH_SERVICE) private _authService: AuthServiceInterface) {
+    super();
+  }
 
   ngOnInit() {
   }
@@ -23,12 +26,13 @@ export class NavComponent implements OnInit {
   public login() {
     this._authService.login(this.model)
       .subscribe(
-        response => console.log(`response is ${response}`),
-        error => console.log(`error is ${error}`)
+        response => this._messageService.success("You have successfully logged in."),
+        error => this._messageService.error(`An error happened: ${error}`)
       );
   }
 
   public logout() {
+    this._messageService.success("You have successfully logged out");
     this._authService.logout();
   }
 
