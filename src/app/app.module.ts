@@ -10,6 +10,9 @@ import {NavComponent} from "./components/nav/nav.component";
 import {HomeComponent} from "./components/home/home.component";
 import {RegisterComponent} from "./components/register/register.component";
 import {ModelStateErrorComponent} from "./components/model-state-error/model-state-error.component";
+import {ListsComponent} from "./components/lists/lists.component";
+import {MemberListComponent} from "./components/member-list/member-list.component";
+import {MessagesComponent} from "./components/messages/messages.component";
 
 import {APPLICATION_SERVICE, ApplicationService} from "./services/application.service";
 import {AUTH_SERVICE, AuthService} from "./services/auth.service";
@@ -18,6 +21,9 @@ import {KEY_AUTH_TOKEN, STORAGE_SERVICE, StorageService} from "./services/storag
 import {NETWORK_ERROR_HANDLER, NetworkErrorHandler} from "./services/network-error-handler.service";
 import {MESSAGE_SERVICE, MessageService} from "./services/message.service";
 import {ServiceLocator} from "./service-locator";
+import {RouterModule} from "@angular/router";
+import {appRouting} from "./app.routing";
+import {AuthGuard} from "./guards/auth.guard";
 
 @NgModule({
   declarations: [
@@ -25,12 +31,17 @@ import {ServiceLocator} from "./service-locator";
     NavComponent,
     HomeComponent,
     RegisterComponent,
-    ModelStateErrorComponent
+    ModelStateErrorComponent,
+    ListsComponent,
+    MemberListComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    RouterModule,
+    appRouting,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -42,6 +53,7 @@ import {ServiceLocator} from "./service-locator";
     BsDropdownModule.forRoot()
   ],
   providers: [
+    AuthGuard,
     {
       provide: KEY_AUTH_TOKEN,
       useValue: "access_token"
