@@ -1,7 +1,8 @@
-import {Injectable, InjectionToken} from "@angular/core";
+import {Inject, Injectable, InjectionToken} from "@angular/core";
 import {isNullOrUndefined} from "util";
 
 export const STORAGE_SERVICE = new InjectionToken<StorageServiceInterface>("StorageServiceInterface");
+export const KEY_AUTH_TOKEN = new InjectionToken<string>("access_token");
 
 export interface StorageServiceInterface {
   getAuthToken(): string;
@@ -11,7 +12,7 @@ export interface StorageServiceInterface {
 @Injectable()
 export class StorageService implements StorageServiceInterface {
 
-  private static readonly KEY_AUTH_TOKEN = "accessToken";
+  constructor(@Inject(KEY_AUTH_TOKEN) private _keyAuthToken) {}
 
   private _getLocalData(key: string): any {
     return localStorage.getItem(key);
@@ -30,10 +31,10 @@ export class StorageService implements StorageServiceInterface {
   }
 
   public getAuthToken(): string {
-    return this._getLocalData(StorageService.KEY_AUTH_TOKEN);
+    return this._getLocalData(this._keyAuthToken);
   }
 
   public setAuthToken(token: string): void {
-    this._setLocalData(StorageService.KEY_AUTH_TOKEN, token);
+    this._setLocalData(this._keyAuthToken, token);
   }
 }
