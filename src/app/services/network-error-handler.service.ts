@@ -16,7 +16,7 @@ export class NetworkErrorHandler implements NetworkErrorHandlerInterface {
 
   private static readonly APPLICATION_ERROR_HEADER = "Application-Error";
 
-  public handle(response: HttpErrorResponse) {
+  public handle(response: HttpErrorResponse): Observable<any> {
     const applicationError = response.headers.get(NetworkErrorHandler.APPLICATION_ERROR_HEADER);
     if (!isNullOrUndefined(applicationError)) {
       return Observable.throw(applicationError);

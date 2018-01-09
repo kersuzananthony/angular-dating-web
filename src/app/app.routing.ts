@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./components/home/home.component";
 import {ModuleWithProviders} from "@angular/core";
-import {MemberListComponent} from "./components/member-list/member-list.component";
+import {MemberListComponent} from "./components/members/member-list/member-list.component";
 import {MessagesComponent} from "./components/messages/messages.component";
 import {ListsComponent} from "./components/lists/lists.component";
 import {AuthGuard} from "./guards/auth.guard";
