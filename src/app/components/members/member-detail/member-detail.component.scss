@@ -1,0 +1,36 @@
+.member-detail-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  h1 {
+    margin: 0;
+  }
+
+  button i {
+    margin-right: 4px;
+  }
+}
+
+.profile-image {
+  width: 85%;
+  height: 85%;
+  margin: 25px;
+}
+
+.panel-body {
+  padding: 0 25px;
+}
+
+.panel-footer {
+  padding: 10px 25px;
+  background-color: white;
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group-justified > .btn-group > button {
+  width: 95%;
+}

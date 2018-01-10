@@ -1,9 +1,9 @@
-import {BrowserModule} from "@angular/platform-browser";
+import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from "@angular/platform-browser";
 import {Injector, NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {JwtModule} from "@auth0/angular-jwt";
-import {BsDropdownModule} from "ngx-bootstrap";
+import {BsDropdownModule, TabsModule} from "ngx-bootstrap";
 import {RouterModule} from "@angular/router";
 
 import {AppComponent} from "./components/app/app.component";
@@ -14,6 +14,7 @@ import {ModelStateErrorComponent} from "./components/model-state-error/model-sta
 import {ListsComponent} from "./components/lists/lists.component";
 import {MemberListComponent} from "./components/members/member-list/member-list.component";
 import {MemberItemComponent} from "./components/members/member-item/member-item.component";
+import {MemberDetailComponent} from "./components/members/member-detail/member-detail.component";
 import {MessagesComponent} from "./components/messages/messages.component";
 
 import {APPLICATION_SERVICE, ApplicationService} from "./services/application.service";
@@ -28,6 +29,10 @@ import {AuthGuard} from "./guards/auth.guard";
 import {USER_SERVICE, UserService} from "./services/user.service";
 import {AuthInterceptor} from "./services/interceptors/auth.interceptor";
 import {ResponseInterceptor} from "./services/interceptors/response.interceptor";
+import {MemberDetailResolver} from "./resolvers/member-detail.resolver";
+import {MemberListResolver} from "./resolvers/member-list.resolver";
+import {NgxGalleryModule} from "ngx-gallery";
+import {ApplicationHammerConfig} from "./config/application-hammer.config";
 
 @NgModule({
   declarations: [
@@ -39,6 +44,7 @@ import {ResponseInterceptor} from "./services/interceptors/response.interceptor"
     ListsComponent,
     MemberListComponent,
     MemberItemComponent,
+    MemberDetailComponent,
     MessagesComponent
   ],
   imports: [
@@ -55,10 +61,14 @@ import {ResponseInterceptor} from "./services/interceptors/response.interceptor"
         whitelistedDomains: ["localhost:5000"]
       }
     }),
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    TabsModule.forRoot(),
+    NgxGalleryModule
   ],
   providers: [
     AuthGuard,
+    MemberListResolver,
+    MemberDetailResolver,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
@@ -100,6 +110,10 @@ import {ResponseInterceptor} from "./services/interceptors/response.interceptor"
     {
       provide: MESSAGE_SERVICE,
       useClass: MessageService
+    },
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: ApplicationHammerConfig
     }
   ],
   bootstrap: [AppComponent]

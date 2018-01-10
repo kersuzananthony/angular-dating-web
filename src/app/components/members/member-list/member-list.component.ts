@@ -1,7 +1,7 @@
-import {Component, Inject, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {BaseComponent} from "../../base.component";
 import {User} from "../../../models/user.model";
-import {USER_SERVICE, UserServiceInterface} from "../../../services/user.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: "app-member-list",
@@ -12,23 +12,15 @@ export class MemberListComponent extends BaseComponent implements OnInit {
 
   private _users: User[];
 
-  constructor(@Inject(USER_SERVICE) private _userService: UserServiceInterface) {
+  constructor(private _activatedRoute: ActivatedRoute) {
     super();
   }
 
   ngOnInit() {
-    this._loadUsers();
+    this._activatedRoute.data.subscribe(data => this._users = data["users"]);
   }
 
   get users(): User[] {
     return this._users;
-  }
-
-  private _loadUsers() {
-    this._userService.getUsers()
-      .subscribe(
-        users => this._users = users,
-        err => this._handleError(err)
-      );
   }
 }

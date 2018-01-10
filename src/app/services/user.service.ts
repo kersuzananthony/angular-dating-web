@@ -7,6 +7,7 @@ export const USER_SERVICE = new InjectionToken<UserServiceInterface>("UserServic
 
 export interface UserServiceInterface {
   getUsers(): Observable<User[]>;
+  getUser(id: number): Observable<User>;
 }
 
 export class UserService implements UserServiceInterface {
@@ -17,5 +18,9 @@ export class UserService implements UserServiceInterface {
 
   public getUsers(): Observable<User[]> {
     return this._networkService.get(UserService.ENDPOINT_USERS);
+  }
+
+  public getUser(id: number): Observable<User> {
+    return this._networkService.get(`${UserService.ENDPOINT_USERS}/${id}`);
   }
 }
