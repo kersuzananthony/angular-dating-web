@@ -9,6 +9,7 @@ export const NETWORK_SERVICE = new InjectionToken<NetworkServiceInterface>("Netw
 export interface NetworkServiceInterface {
   get<T>(path: string): Observable<T>;
   post<T>(path: string, payload: any): Observable<T>;
+  put<T>(path: string, payload: any): Observable<T>;
 }
 
 @Injectable()
@@ -26,6 +27,10 @@ export class NetworkService implements NetworkServiceInterface {
 
   public post<T>(path: string, payload: any): Observable<T> {
     return this._http.post<T>(this._buildUrl(path), payload);
+  }
+
+  public put<T>(path: string, payload: any): Observable<T> {
+    return this._http.put<T>(this._buildUrl(path), payload);
   }
 
   private _buildUrl(path: string): string {

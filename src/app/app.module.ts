@@ -1,4 +1,4 @@
-import {BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig} from "@angular/platform-browser";
+import {BrowserModule, HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
 import {Injector, NgModule} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -16,6 +16,11 @@ import {MemberListComponent} from "./components/members/member-list/member-list.
 import {MemberItemComponent} from "./components/members/member-item/member-item.component";
 import {MemberDetailComponent} from "./components/members/member-detail/member-detail.component";
 import {MessagesComponent} from "./components/messages/messages.component";
+import {MemberEditComponent} from "./components/members/member-edit/member-edit.component";
+
+import {MemberDetailResolver} from "./resolvers/member-detail.resolver";
+import {MemberEditResolver} from "./resolvers/member-edit.resolver";
+import {MemberListResolver} from "./resolvers/member-list.resolver";
 
 import {APPLICATION_SERVICE, ApplicationService} from "./services/application.service";
 import {AUTH_SERVICE, AuthService} from "./services/auth.service";
@@ -29,10 +34,9 @@ import {AuthGuard} from "./guards/auth.guard";
 import {USER_SERVICE, UserService} from "./services/user.service";
 import {AuthInterceptor} from "./services/interceptors/auth.interceptor";
 import {ResponseInterceptor} from "./services/interceptors/response.interceptor";
-import {MemberDetailResolver} from "./resolvers/member-detail.resolver";
-import {MemberListResolver} from "./resolvers/member-list.resolver";
 import {NgxGalleryModule} from "ngx-gallery";
 import {ApplicationHammerConfig} from "./config/application-hammer.config";
+import {PreventUnsavedChangesGuard} from "./guards/prevent-unsaved-changes.guard";
 
 @NgModule({
   declarations: [
@@ -45,6 +49,7 @@ import {ApplicationHammerConfig} from "./config/application-hammer.config";
     MemberListComponent,
     MemberItemComponent,
     MemberDetailComponent,
+    MemberEditComponent,
     MessagesComponent
   ],
   imports: [
@@ -67,8 +72,10 @@ import {ApplicationHammerConfig} from "./config/application-hammer.config";
   ],
   providers: [
     AuthGuard,
+    PreventUnsavedChangesGuard,
     MemberListResolver,
     MemberDetailResolver,
+    MemberEditResolver,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
