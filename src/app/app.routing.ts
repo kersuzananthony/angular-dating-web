@@ -1,34 +1,25 @@
-import {RouterModule, Routes} from "@angular/router";
-import {HomeComponent} from "./components/home/home.component";
+import {PreloadAllModules, RouterModule, Routes} from "@angular/router";
 import {ModuleWithProviders} from "@angular/core";
-import {MemberListComponent} from "./components/members/member-list/member-list.component";
-import {MessagesComponent} from "./components/messages/messages.component";
-import {ListsComponent} from "./components/lists/lists.component";
-import {AuthGuard} from "./guards/auth.guard";
-import {MemberDetailComponent} from "./components/members/member-detail/member-detail.component";
-import {MemberDetailResolver} from "./resolvers/member-detail.resolver";
-import {MemberListResolver} from "./resolvers/member-list.resolver";
-import {MemberEditComponent} from "./components/members/member-edit/member-edit.component";
-import {MemberEditResolver} from "./resolvers/member-edit.resolver";
-import {PreventUnsavedChangesGuard} from "./guards/prevent-unsaved-changes.guard";
+import {AuthGuard} from "./core/guards/auth.guard";
 
 const appRoutes: Routes = [
-  {path: "home", component: HomeComponent},
+  {path: "home", loadChildren: "app/features/home/home.module#HomeModule"},
   {
     path: "",
     runGuardsAndResolvers: "always",
     canActivate: [AuthGuard],
     children: [
-      {path: "members", component: MemberListComponent, resolve: {users: MemberListResolver}},
-      {path: "members/edit", component: MemberEditComponent, resolve: {user: MemberEditResolver}, canDeactivate: [PreventUnsavedChangesGuard]},
-      {path: "members/:id", component: MemberDetailComponent, resolve: {user: MemberDetailResolver}},
-      {path: "messages", component: MessagesComponent},
-      {path: "lists", component: ListsComponent}
+      {path: "members", loadChildren: "app/features/members/members.module#MembersModule"},
+      {path: "messages", loadChildren: "app/features/messages/messages.module#MessagesModule"},
+      {path: "lists", loadChildren: "app/features/lists/lists.module#ListsModule"}
     ]
   },
   {path: "**", redirectTo: "home", pathMatch: "full"}
 ];
 
-export const appRouting: ModuleWithProviders = RouterModule.forRoot(appRoutes);
+export const AppRouting: ModuleWithProviders = RouterModule.forRoot(appRoutes, {
+  useHash: true,
+  preloadingStrategy: PreloadAllModules
+});
 
 
