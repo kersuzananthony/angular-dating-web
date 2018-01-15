@@ -1,6 +1,6 @@
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from "@angular/core";
 import {HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
-import {ApplicationHammerConfig} from "../config/application-hammer.config";
+import {ApplicationHammerConfig} from "./config/application-hammer.config";
 
 import {PreventUnsavedChangesGuard} from "./guards/prevent-unsaved-changes.guard";
 import {AuthGuard} from "./guards/auth.guard";
