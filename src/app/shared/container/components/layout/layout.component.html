@@ -1,0 +1,8 @@
+<app-nav
+  [token]="sandbox.authToken$ | async"
+  (logout)="onLogout()">
+</app-nav>
+<div class="content" style="margin-top: 70px;">
+  <ng-content></ng-content>
+</div>
+<ngx-loading-bar color="#2780e3"></ngx-loading-bar>

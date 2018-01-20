@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, CanDeactivate, RouterStateSnapshot} from "@angular/router";
-import {IEditableComponent} from "../../shared/components/editable.component";
+import {IEditableComponent} from "@app/shared/components/editable.component";
 
 @Injectable()
 export class PreventUnsavedChangesGuard implements CanDeactivate<IEditableComponent> {

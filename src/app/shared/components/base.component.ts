@@ -1,6 +1,6 @@
-import {ModelStateError} from "../../core/models/model-state-error.model";
-import {MESSAGE_SERVICE, IMessageService} from "../../core/services/message.service";
-import {ServiceLocator} from "../../service-locator";
+import {ModelStateError} from "@app/core/models/model-state-error.model";
+import {MESSAGE_SERVICE, IMessageService} from "@app/core/services/message.service";
+import {ServiceLocator} from "@app/service-locator";
 
 export abstract class BaseComponent {
 

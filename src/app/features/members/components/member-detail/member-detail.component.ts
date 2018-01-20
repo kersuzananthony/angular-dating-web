@@ -1,24 +1,26 @@
 import "hammerjs";
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions} from "ngx-gallery";
-import {BaseComponent} from "../../../../shared/components/base.component";
-import {User} from "../../../../core/models/user.model";
+import {User} from "@core/models/user.model";
+import {BaseSandboxComponent} from "@shared/components/base-sandbox.component";
+import {MemberDetailSandbox} from "@members/sandbox/member-detail.sandbox";
 
 @Component({
   selector: "app-member-detail",
   templateUrl: "./member-detail.component.html",
   styleUrls: ["./member-detail.component.scss"]
 })
-export class MemberDetailComponent extends BaseComponent implements OnInit {
+export class MemberDetailComponent extends BaseSandboxComponent<MemberDetailSandbox> implements OnInit, OnDestroy {
 
   private _user: User;
   private _galleryOptions: NgxGalleryOptions[];
   private _galleryImages: NgxGalleryImage[];
 
   constructor(private _activatedRoute: ActivatedRoute,
-              private _router: Router) {
-    super();
+              private _router: Router,
+              memberDetailSandbox: MemberDetailSandbox) {
+    super(memberDetailSandbox);
   }
 
   get user(): User {
@@ -33,7 +35,7 @@ export class MemberDetailComponent extends BaseComponent implements OnInit {
     return this._galleryImages;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this._activatedRoute.data.subscribe(data => this._user = data["user"]);
 
     this._galleryOptions = [{
@@ -46,6 +48,12 @@ export class MemberDetailComponent extends BaseComponent implements OnInit {
     }];
 
     this._galleryImages = this._getImages();
+  }
+
+  public ngOnDestroy() {
+    this.sandbox.unloadMemberDetail();
+
+    super.ngOnDestroy();
   }
 
   private _getImages() {

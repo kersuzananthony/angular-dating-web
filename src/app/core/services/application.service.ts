@@ -12,6 +12,5 @@ export class ApplicationService implements IApplicationService {
   constructor(@Inject(AUTH_SERVICE) private _authService: IAuthService) {}
 
   public initializeApplication() {
-    this._authService.initialize();
   }
 }

@@ -10,29 +10,21 @@
 			<a class="navbar-brand" [routerLink]="['/home']">Dating App</a>
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
-			<ul *ngIf="isLoggedIn" class="nav navbar-nav">
+			<ul *ngIf="!!token" class="nav navbar-nav">
 				<li routerLinkActive="active"><a [routerLink]="['/members']">Matches</a></li>
 				<li routerLinkActive="active"><a [routerLink]="['/lists']">Lists</a></li>
 				<li routerLinkActive="active"><a [routerLink]="['/messages']">Messages</a></li>
 			</ul>
 
-			<form *ngIf="!isLoggedIn" #loginForm="ngForm" class="navbar-form navbar-right" (ngSubmit)="login()" >
-				<div class="form-group">
-					<input type="text" placeholder="Username" required="" name="username" class="form-control" [(ngModel)]="model.username">
-				</div>
-				<div class="form-group">
-					<input type="password" placeholder="Password" required="" name="password" class="form-control" [(ngModel)]="model.password">
-				</div>
-				<button type="submit" class="btn btn-success" [disabled]="!loginForm.valid">Sign in</button>
-			</form>
+      <app-login *ngIf="!token"></app-login>
 
-			<ul *ngIf="isLoggedIn" class="nav navbar-nav navbar-right">
+			<ul *ngIf="!!token" class="nav navbar-nav navbar-right">
 				<li class="dropdown" dropdown>
 					<a (click)="$event.preventDefault" class="dropdown-toggle" dropdownToggle>Welcome {{ token?.decodedToken?.unique_name | titlecase }} <span class="caret"></span></a>
 					<ul class="dropdown-menu" *dropdownMenu>
 						<li><a [routerLink]="['/members/edit']"><i class="fa fa-user"></i> Edit Profile</a></li>
 						<li role="separator" class="divider"></li>
-						<li><a (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a></li>
+						<li><a (click)="onLogout()"><i class="fa fa-sign-out"></i> Logout</a></li>
 					</ul>
 				</li>
 			</ul>

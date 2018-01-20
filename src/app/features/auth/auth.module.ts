@@ -1,9 +1,12 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {SharedModule} from "../../shared/shared.module";
-import {UIKitModule} from "../../shared/uikit/uikit.module";
+import {SharedModule} from "@app/shared/shared.module";
+import {UIKitModule} from "@app/shared/uikit/uikit.module";
 
 import {RegisterComponent} from "./components/register/register.component";
+import {LoginComponent} from "./components/login/login.component";
+
+import {AuthSandbox} from "./auth.sandbox";
 
 @NgModule({
   imports: [
@@ -12,10 +15,15 @@ import {RegisterComponent} from "./components/register/register.component";
     UIKitModule
   ],
   declarations: [
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
+  ],
+  providers: [
+    AuthSandbox
   ],
   exports: [
-    RegisterComponent
+    RegisterComponent,
+    LoginComponent
   ]
 })
 export class AuthModule {}

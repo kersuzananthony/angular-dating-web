@@ -3,6 +3,8 @@ import {FormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
 import {BsDropdownModule, TabsModule} from "ngx-bootstrap";
 import {NgxGalleryModule} from "ngx-gallery";
+import {LoadingBarHttpClientModule} from "@ngx-loading-bar/http-client";
+import {LoadingBarRouterModule} from "@ngx-loading-bar/router";
 
 @NgModule({
   imports: [
@@ -10,14 +12,18 @@ import {NgxGalleryModule} from "ngx-gallery";
     RouterModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    NgxGalleryModule
+    NgxGalleryModule,
+    LoadingBarHttpClientModule,
+    LoadingBarRouterModule
   ],
   exports: [
     FormsModule,
     RouterModule,
     BsDropdownModule,
     TabsModule,
-    NgxGalleryModule
+    NgxGalleryModule,
+    LoadingBarRouterModule,
+    LoadingBarHttpClientModule
   ]
 })
 export class SharedModule {}

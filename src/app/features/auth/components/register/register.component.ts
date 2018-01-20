@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Inject, OnInit, Output} from "@angular/core";
-import {BaseComponent} from "../../../../shared/components/base.component";
-import {RegistrationRequest} from "../../../../core/models/requests/registration-request.model";
-import {AUTH_SERVICE, IAuthService} from "../../../../core/services/auth.service";
+import {BaseComponent} from "@app/shared/components/base.component";
+import {RegistrationRequest} from "@app/core/models/requests/registration-request.model";
+import {AUTH_SERVICE, IAuthService} from "@app/core/services/auth.service";
 
 @Component({
   selector: "app-register",

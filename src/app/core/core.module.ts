@@ -1,6 +1,9 @@
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from "@angular/core";
 import {HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
 import {ApplicationHammerConfig} from "./config/application-hammer.config";
+import {StoreModule} from "@ngrx/store";
+import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {EffectsModule} from "@ngrx/effects";
 
 import {PreventUnsavedChangesGuard} from "./guards/prevent-unsaved-changes.guard";
 import {AuthGuard} from "./guards/auth.guard";
@@ -19,17 +22,33 @@ import {MESSAGE_SERVICE, MessageService} from "./services/message.service";
 import {ServiceLocator} from "../service-locator";
 import {JwtModule} from "@auth0/angular-jwt";
 
+import * as store from "./store";
+import {AuthEffects} from "./store/effects/auth.effect";
+import {MembersEffects} from "@core/store/effects/members.effect";
+import {MemberDetailEffects} from "@core/store/effects/member-detail.effect";
+import {MemberEditEffects} from "@core/store/effects/member-edit.effect";
+
+export function jwtTokenGetter() {
+  return localStorage.getItem(ServiceLocator.getInjector().get(KEY_AUTH_TOKEN));
+}
+
 @NgModule({
   imports: [
     HttpClientModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: () => {
-          return localStorage.getItem(ServiceLocator.getInjector().get(KEY_AUTH_TOKEN));
-        },
+        tokenGetter: jwtTokenGetter,
         whitelistedDomains: ["localhost:5000"]
       }
-    })
+    }),
+    StoreModule.forRoot(store.reducers),
+    StoreDevtoolsModule.instrument(),
+    EffectsModule.forRoot([
+      AuthEffects,
+      MembersEffects,
+      MemberDetailEffects,
+      MemberEditEffects
+    ])
   ],
   exports: [
     HttpClientModule,

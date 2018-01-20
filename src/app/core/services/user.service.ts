@@ -2,13 +2,15 @@ import {Inject, InjectionToken} from "@angular/core";
 import {NETWORK_SERVICE, INetworkService} from "./network.service";
 import {Observable} from "rxjs/Observable";
 import {User} from "../models/user.model";
+import {Token} from "@core/models/token.model";
+import {isNullOrUndefined} from "util";
 
 export const USER_SERVICE = new InjectionToken<IUserService>("IUserService");
 
 export interface IUserService {
   getUsers(): Observable<User[]>;
   getUser(id: number): Observable<User>;
-  updateUser(id: number, user: User): Observable<any>;
+  updateUser(token: Token, user: User): Observable<any>;
 }
 
 export class UserService implements IUserService {
@@ -26,7 +28,11 @@ export class UserService implements IUserService {
   }
 
 
-  public updateUser(id: number, user: User): Observable<any> {
-    return this._networkService.put(`${UserService.ENDPOINT_USERS}/${id}`, user);
+  public updateUser(token: Token, user: User): Observable<any> {
+    if (isNullOrUndefined(token) || isNullOrUndefined(token.decodedToken) || isNullOrUndefined(token.decodedToken.nameid)) {
+      return Observable.throw("User ID cannot be found on the provided token");
+    }
+
+    return this._networkService.put(`${UserService.ENDPOINT_USERS}/${token.decodedToken.nameid}`, user);
   }
 }

@@ -10,7 +10,11 @@ import {MemberEditComponent} from "./components/member-edit/member-edit.componen
 import {MemberListResolver} from "./resolvers/member-list.resolver";
 import {MemberDetailResolver} from "./resolvers/member-detail.resolver";
 import {MemberEditResolver} from "./resolvers/member-edit.resolver";
-import {SharedModule} from "../../shared/shared.module";
+import {SharedModule} from "@shared/shared.module";
+
+import {MembersSandbox} from "@members/sandbox/members.sandbox";
+import {MemberDetailSandbox} from "@members/sandbox/member-detail.sandbox";
+import {MemberEditSandbox} from "@members/sandbox/member-edit.sandbox";
 
 @NgModule({
   imports: [
@@ -27,7 +31,10 @@ import {SharedModule} from "../../shared/shared.module";
   providers: [
     MemberListResolver,
     MemberDetailResolver,
-    MemberEditResolver
+    MemberEditResolver,
+    MembersSandbox,
+    MemberDetailSandbox,
+    MemberEditSandbox
   ],
 })
 export class MembersModule {}

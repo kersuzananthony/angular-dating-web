@@ -1,0 +1,9 @@
+<form #loginForm="ngForm" class="navbar-form navbar-right" (ngSubmit)="login()" >
+  <div class="form-group">
+    <input type="text" placeholder="Username" required="" name="username" class="form-control" [(ngModel)]="model.username">
+  </div>
+  <div class="form-group">
+    <input type="password" placeholder="Password" required="" name="password" class="form-control" [(ngModel)]="model.password">
+  </div>
+  <button type="submit" class="btn btn-success" [disabled]="!loginForm.valid">Sign in</button>
+</form>

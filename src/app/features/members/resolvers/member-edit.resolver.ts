@@ -1,28 +1,34 @@
-import {Inject, Injectable} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from "@angular/router";
 import {Observable} from "rxjs/Observable";
-import {isNullOrUndefined} from "util";
-import "rxjs/add/observable/of";
-import {BaseResolver} from "../../../shared/resolvers/base.resolver";
-import {User} from "../../../core/models/user.model";
-import {USER_SERVICE, IUserService} from "../../../core/services/user.service";
-import {AUTH_SERVICE, IAuthService} from "../../../core/services/auth.service";
+import {User} from "@core/models/user.model";
+import {of} from "rxjs/observable/of";
+import {MemberEditSandbox} from "@members/sandbox/member-edit.sandbox";
+import "rxjs/add/observable/combineLatest";
+import "rxjs/add/operator/take";
+import "rxjs/add/operator/filter";
+import "rxjs/add/operator/mergeMap";
 
 @Injectable()
-export class MemberEditResolver extends BaseResolver implements Resolve<User> {
+export class MemberEditResolver implements Resolve<User> {
 
-  constructor(@Inject(USER_SERVICE) private _userService: IUserService,
-              @Inject(AUTH_SERVICE) private _authService: IAuthService) {
-    super();
+  constructor(private _memberEditSandbox: MemberEditSandbox) {
+    this._memberEditSandbox.registerEvents();
   }
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User> {
-    const token = this._authService.getToken();
-    if (isNullOrUndefined(token) || isNullOrUndefined(token.decodedToken.nameid)) {
-      return Observable.of(null);
-    }
+    this._memberEditSandbox.loadMember();
 
-    return this._userService.getUser(token.decodedToken.nameid)
-      .catch(() => this._handleError("An error occurred when getting the user.", "members"));
+    return this._waitForResponse();
+  }
+
+  private _waitForResponse(): Observable<User> {
+    return Observable.combineLatest(
+      this._memberEditSandbox.memberEditLoaded$,
+      this._memberEditSandbox.memberEditFailed$,
+      this._memberEditSandbox.memberEditData$
+    ).filter(([loaded, failed, data]) => (loaded && data !== null) || failed)
+      .mergeMap(data => of(data[2]))
+      .take(1);
   }
 }

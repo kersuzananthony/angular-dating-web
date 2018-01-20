@@ -1,7 +1,7 @@
-<div class="container">
+<div class="container" *ngIf="user">
   <div class="row">
     <div class="member-detail-header col-sm-12">
-      <h1 class="col-sm-12">{{ user?.knownAs }}'s Profile</h1>
+      <h1 class="col-sm-12">{{ user.knownAs }}'s Profile</h1>
       <button class="btn btn-default btn-sm" (click)="onBackClicked()"><i class="fa fa-arrow-left"></i>Back</button>
     </div>
   </div>

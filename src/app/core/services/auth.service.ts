@@ -9,16 +9,15 @@ import {isNullOrUndefined} from "util";
 import {RegistrationRequest} from "../models/requests/registration-request.model";
 import "rxjs/add/operator/map";
 import {Token} from "../models/token.model";
+import {of} from "rxjs/observable/of";
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>("IAuthService");
 
 export interface IAuthService {
-  initialize();
   login(model: LoginRequest): Observable<Token>;
   register(model: RegistrationRequest): Observable<void>;
-  isLoggedIn(): boolean;
-  getToken(): Token;
-  logout(): void;
+  loadTokenIfValid(): Observable<Token>;
+  logout(): Observable<void>;
 }
 
 @Injectable()
@@ -27,23 +26,16 @@ export class AuthService implements IAuthService {
   private static readonly ENDPOINT_LOGIN = "auth/login";
   private static readonly ENDPOINT_REGISTER = "auth/register";
 
-  private _token: Token;
-
   constructor(@Inject(NETWORK_SERVICE) private _networkService: INetworkService,
               @Inject(STORAGE_SERVICE) private _storageService: IStorageService,
               private _jwtHelpersService: JwtHelperService) {
-  }
-
-  public initialize() {
-    this._setToken();
   }
 
   public login(model: LoginRequest): Observable<Token> {
     return this._networkService.post(AuthService.ENDPOINT_LOGIN, model)
       .map((response: LoginResponse) => {
         this._storageService.setAuthToken(response.token);
-        this._setToken();
-        return this._token;
+        return this._buildToken();
       });
   }
 
@@ -51,27 +43,20 @@ export class AuthService implements IAuthService {
     return this._networkService.post(AuthService.ENDPOINT_REGISTER, model);
   }
 
-  public isLoggedIn(): boolean {
+  public loadTokenIfValid(): Observable<Token> {
     const token = this._jwtHelpersService.tokenGetter();
-    if (isNullOrUndefined(token)) return false;
+    if (isNullOrUndefined(token)) return of(null);
 
-
-    return !this._jwtHelpersService.isTokenExpired(token);
+    return !this._jwtHelpersService.isTokenExpired(token) ? of(this._buildToken()) : of(null);
   }
 
-  public getToken(): Token {
-    return this._token;
+  public logout(): Observable<void> {
+    return of(this._storageService.setAuthToken(null));
   }
 
-  public logout(): void {
-    this._storageService.setAuthToken(null);
-    this._token = null;
-  }
-
-  private _setToken() {
+  private _buildToken() {
     const rawToken = this._storageService.getAuthToken();
-    if (!isNullOrUndefined(rawToken)) {
-      this._token = Token.build(rawToken, this._jwtHelpersService.decodeToken(rawToken));
-    }
+
+    return !isNullOrUndefined(rawToken) ? Token.build(rawToken, this._jwtHelpersService.decodeToken(rawToken)) : null;
   }
 }

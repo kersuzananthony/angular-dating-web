@@ -1,16 +1,20 @@
-import {Component, Inject, OnInit} from "@angular/core";
-import {APPLICATION_SERVICE, IApplicationService} from "./core/services/application.service";
+import {Component, OnInit} from "@angular/core";
+import {AppSandbox} from "./app.sandbox";
+import {BaseSandboxComponent} from "./shared/components/base-sandbox.component";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
+  providers: [AppSandbox]
 })
-export class AppComponent implements OnInit {
+export class AppComponent extends BaseSandboxComponent<AppSandbox> implements OnInit {
 
-  constructor(@Inject(APPLICATION_SERVICE) private _applicationService: IApplicationService) {}
+  constructor(appSandbox: AppSandbox) {
+    super(appSandbox);
+  }
 
   ngOnInit() {
-    this._applicationService.initializeApplication();
+    this.sandbox.onAppInit();
   }
 }

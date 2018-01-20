@@ -1,23 +1,30 @@
-import {Component, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from "@angular/core";
+import {User} from "@core/models/user.model";
+import {BaseSandboxComponent} from "@shared/components/base-sandbox.component";
+import {MembersSandbox} from "@members/sandbox/members.sandbox";
 import {ActivatedRoute} from "@angular/router";
-import {BaseComponent} from "../../../../shared/components/base.component";
-import {User} from "../../../../core/models/user.model";
 
 @Component({
   selector: "app-member-list",
   templateUrl: "./member-list.component.html",
-  styleUrls: ["./member-list.component.scss"]
+  styleUrls: ["./member-list.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MemberListComponent extends BaseComponent implements OnInit {
+export class MemberListComponent extends BaseSandboxComponent<MembersSandbox> implements OnInit {
 
   private _users: User[];
 
-  constructor(private _activatedRoute: ActivatedRoute) {
-    super();
+  constructor(private _changeDetector: ChangeDetectorRef,
+              private _activatedRoute: ActivatedRoute,
+              membersSandbox: MembersSandbox) {
+    super(membersSandbox);
   }
 
   ngOnInit() {
-    this._activatedRoute.data.subscribe(data => this._users = data["users"]);
+    this._activatedRoute.data.subscribe(data => {
+      this._users = data["users"];
+      this._changeDetector.markForCheck();
+    });
   }
 
   get users(): User[] {
