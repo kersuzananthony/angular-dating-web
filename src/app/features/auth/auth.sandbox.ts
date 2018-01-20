@@ -26,13 +26,8 @@ export class AuthSandbox extends BaseSandbox {
   public registerEvents() {
     super.registerEvents();
 
-    if (!this._subscriptions.has(AuthSandbox.LOGIN_FAIL_KEY)) {
-      this._subscriptions.set(AuthSandbox.LOGIN_FAIL_KEY, this._loginFailedSubscription());
-    }
-
-    if (!this._subscriptions.has(AuthSandbox.LOGIN_SUCCESS_KEY)) {
-      this._subscriptions.set(AuthSandbox.LOGIN_FAIL_KEY, this._loginSuccessSubscription());
-    }
+    this._registerEvent(AuthSandbox.LOGIN_FAIL_KEY, this._loginFailedSubscription.bind(this));
+    this._registerEvent(AuthSandbox.LOGIN_SUCCESS_KEY, this._loginSuccessSubscription.bind(this));
   }
 
   public login(model: LoginRequest) {

@@ -27,17 +27,9 @@ export class MemberEditSandbox extends BaseSandbox {
   public registerEvents() {
     super.registerEvents();
 
-    if (!this._subscriptions.has(MemberEditSandbox.LOAD_FAILED_KEY)) {
-      this._subscriptions.set(MemberEditSandbox.LOAD_FAILED_KEY, this._loadFailSubscription());
-    }
-
-    if (!this._subscriptions.has(MemberEditSandbox.UPDATE_FAILED_KEY)) {
-      this._subscriptions.set(MemberEditSandbox.UPDATE_FAILED_KEY, this._updateFailSubscription());
-    }
-
-    if (!this._subscriptions.has(MemberEditSandbox.UPDATE_SUCCESS_KEY)) {
-      this._subscriptions.set(MemberEditSandbox.UPDATE_SUCCESS_KEY, this._updateSuccessSubscription());
-    }
+    this._registerEvent(MemberEditSandbox.LOAD_FAILED_KEY, this._loadFailSubscription.bind(this));
+    this._registerEvent(MemberEditSandbox.UPDATE_FAILED_KEY, this._updateFailSubscription.bind(this));
+    this._registerEvent(MemberEditSandbox.UPDATE_SUCCESS_KEY, this._updateSuccessSubscription.bind(this));
   }
 
   public loadMember() {

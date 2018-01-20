@@ -1,6 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {AppSandbox} from "./app.sandbox";
-import {BaseSandboxComponent} from "./shared/components/base-sandbox.component";
+import {BaseSandboxComponent} from "@shared/components/base-sandbox.component";
 
 @Component({
   selector: "app-root",

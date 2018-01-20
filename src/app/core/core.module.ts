@@ -13,7 +13,6 @@ import {ResponseInterceptor} from "./services/interceptors/response.interceptor"
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
 import {KEY_AUTH_TOKEN, STORAGE_SERVICE, StorageService} from "./services/storage.service";
-import {APPLICATION_SERVICE, ApplicationService} from "./services/application.service";
 import {NETWORK_SERVICE, NetworkService} from "./services/network.service";
 import {NETWORK_ERROR_HANDLER, NetworkErrorHandler} from "./services/network-error-handler.service";
 import {AUTH_SERVICE, AuthService} from "./services/auth.service";
@@ -75,10 +74,6 @@ export class CoreModule {
         {
           provide: KEY_AUTH_TOKEN,
           useValue: "access_token"
-        },
-        {
-          provide: APPLICATION_SERVICE,
-          useClass: ApplicationService
         },
         {
           provide: NETWORK_SERVICE,

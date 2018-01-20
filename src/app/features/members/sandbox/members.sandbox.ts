@@ -22,9 +22,7 @@ export class MembersSandbox extends BaseSandbox {
   public registerEvents() {
     super.registerEvents();
 
-    if (!this._subscriptions.has(MembersSandbox.LOAD_FAILED_KEY)) {
-      this._subscriptions.set(MembersSandbox.LOAD_FAILED_KEY, this._loadFailedSubscription());
-    }
+    this._registerEvent(MembersSandbox.LOAD_FAILED_KEY, this._loadFailedSubscription.bind(this));
   }
 
   public loadUsers(): void {

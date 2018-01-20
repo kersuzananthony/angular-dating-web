@@ -22,9 +22,7 @@ export class LayoutSandbox extends BaseSandbox {
   public registerEvents() {
     super.registerEvents();
 
-    if (!this._subscriptions.has(LayoutSandbox.TOKEN_UPDATE_KEY)) {
-      this._subscriptions.set(LayoutSandbox.TOKEN_UPDATE_KEY, this._tokenUpdateSubscription());
-    }
+    this._registerEvent(LayoutSandbox.TOKEN_UPDATE_KEY, this._tokenUpdateSubscription.bind(this));
   }
 
   public logout() {

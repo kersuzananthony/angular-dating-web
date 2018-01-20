@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import {ModelStateError} from "../../../../core/models/model-state-error.model";
+import {ModelStateError} from "@core/models/model-state-error.model";
 
 @Component({
   selector: "app-model-state-error",

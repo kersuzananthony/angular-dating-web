@@ -11,10 +11,10 @@ export abstract class BaseSandbox {
   private _messageService: IMessageService;
   protected _router: Router;
 
-  protected _subscriptions: Map<string, Subscription>;
+  protected _subscriptionsMap: Map<string, Subscription>;
 
   constructor(protected _appState$: Store<store.State>) {
-    this._subscriptions = new Map<string, Subscription>();
+    this._subscriptionsMap = new Map<string, Subscription>();
     this._router = ServiceLocator.getInjector().get(Router);
   }
 
@@ -26,14 +26,19 @@ export abstract class BaseSandbox {
   public registerEvents() {}
 
   public unregisterEvents() {
-    if (!isNullOrUndefined(this._subscriptions)) {
-      Array.from(this._subscriptions.values()).forEach(s => s.unsubscribe());
+    if (!isNullOrUndefined(this._subscriptionsMap)) {
+      Array.from(this._subscriptionsMap.values()).forEach(s => s.unsubscribe());
+      this._subscriptionsMap = new Map<string, Subscription>();
     }
-
-    this._subscriptions = new Map<string, Subscription>();
   }
 
   private _getMessageService(): IMessageService {
     return ServiceLocator.getInjector().get(MESSAGE_SERVICE);
+  }
+
+  protected _registerEvent(key: string, subscriptionResolver: () => Subscription): void {
+    if (!this._subscriptionsMap.has(key)) {
+      this._subscriptionsMap.set(key, subscriptionResolver());
+    }
   }
 }
