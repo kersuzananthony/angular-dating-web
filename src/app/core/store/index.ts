@@ -29,11 +29,16 @@ export const reducers: ActionReducerMap<State> = {
 /**
  * Auth Store Functions
  */
-export const getAuthState   = (state: State) => state.auth;
-export const getAuthToken   = createSelector(getAuthState, fromAuth.getToken);
-export const getAuthLoading = createSelector(getAuthState, fromAuth.getLoading);
-export const getAuthLoaded  = createSelector(getAuthState, fromAuth.getLoaded);
-export const getAuthFailed  = createSelector(getAuthState, fromAuth.getFailed);
+export const getAuthState           = (state: State) => state.auth;
+export const getAuthToken           = createSelector(getAuthState, fromAuth.getToken);
+export const getAuthLoading         = createSelector(getAuthState, fromAuth.getLoading);
+export const getAuthLoaded          = createSelector(getAuthState, fromAuth.getLoaded);
+export const getAuthFailed          = createSelector(getAuthState, fromAuth.getFailed);
+export const getAuthRegistering     = createSelector(getAuthState, fromAuth.getRegistering);
+export const getAuthRegistered      = createSelector(getAuthState, fromAuth.getRegistered);
+export const getAuthRegisterFailed  = createSelector(getAuthState, fromAuth.getRegisterFailed);
+export const getAuthErrorMessage    = createSelector(getAuthState, fromAuth.getErrorMessage);
+export const getAuthErrorState      = createSelector(getAuthState, fromAuth.getErrorState);
 
 /**
  * Members store functions

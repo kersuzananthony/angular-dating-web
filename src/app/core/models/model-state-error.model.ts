@@ -1,15 +1,15 @@
 import {isNullOrUndefined} from "util";
 import * as _ from "lodash";
-import {flattenArray} from "../../shared/helpers";
+import {flattenArray} from "@shared/helpers";
 
 export class ModelStateError {
 
-  private _errors: Map<string, string[]>;
+  private _errors: {[key: string]: string[]};
 
   constructor(errors: any) {
-    this._errors = new Map();
+    this._errors = {};
     for (const key of Object.keys(errors)) {
-      this._errors.set(key.toLowerCase(), errors[key]);
+      this._errors[key.toLowerCase()] = errors[key];
     }
   }
 
@@ -17,7 +17,7 @@ export class ModelStateError {
     if (isNullOrUndefined(this._errors)) return "";
 
     const result = [];
-    for (const value of this._errors.values()) {
+    for (const value of Object.values(this._errors)) {
       result.push(value);
     }
 
@@ -27,7 +27,7 @@ export class ModelStateError {
   public getAll(key: string): string {
     if (isNullOrUndefined(this._errors)) return "";
 
-    const values = this._errors.get(key.toLowerCase());
+    const values = this._errors[key.toLowerCase()];
     if (isNullOrUndefined(values)) return "";
 
     return values.join("\n");
@@ -36,7 +36,7 @@ export class ModelStateError {
   public getFirst(key: string): string {
     if (isNullOrUndefined(this._errors)) return "";
 
-    const values = this._errors.get(key.toLowerCase());
+    const values = this._errors[key.toLowerCase()];
     if (isNullOrUndefined(values)) return "";
 
     return _.first(values);

@@ -2,6 +2,7 @@ import {type} from "@shared/helpers";
 import {Action} from "@ngrx/store";
 import {LoginRequest} from "../../models/requests/login-request.model";
 import {Token} from "../../models/token.model";
+import {RegistrationRequest} from "@core/models/requests/registration-request.model";
 
 export const ActionTypes = {
   DO_LOGIN:             type("[Auth] DoLogin"),
@@ -57,6 +58,27 @@ export class DidLoadTokenAction implements Action {
 }
 
 /**
+ * Register Actions
+ */
+export class DoRegisterAction implements Action {
+  public readonly type = ActionTypes.DO_REGISTER;
+
+  constructor(public payload: RegistrationRequest) {}
+}
+
+export class DoRegisterSuccessAction implements Action {
+  public readonly type = ActionTypes.DO_REGISTER_SUCCESS;
+
+  constructor(public payload: any = null) {}
+}
+
+export class DoRegisterFailAction implements Action {
+  public readonly type = ActionTypes.DO_REGISTER_FAIL;
+
+  constructor(public payload: any = null) {}
+}
+
+/**
  * Logout Actions
  */
 export class DoLogoutAction implements Action {
@@ -87,6 +109,9 @@ export type Actions
   | DoLoginFailAction
   | DoLoadTokenAction
   | DidLoadTokenAction
+  | DoRegisterAction
+  | DoRegisterSuccessAction
+  | DoRegisterFailAction
   | DoLogoutAction
   | DoLogoutSuccessAction
   | DoLogoutFailAction;

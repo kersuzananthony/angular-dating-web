@@ -4,7 +4,7 @@ import {ServiceLocator} from "@app/service-locator";
 
 export abstract class BaseComponent {
 
-  private _modelStateError: ModelStateError;
+  public _modelStateError: ModelStateError;
 
   protected readonly _messageService: IMessageService;
 
@@ -16,17 +16,7 @@ export abstract class BaseComponent {
     return this._modelStateError;
   }
 
-  protected _handleError(error: any) {
-    this._clearError();
-    if (error instanceof ModelStateError) {
-      this._modelStateError = error;
-      return;
-    }
-
-    this._messageService.error(<any>error);
-  }
-
-  protected _clearError() {
-    this._modelStateError = null;
+  protected setModelStateError(value: ModelStateError) {
+    this._modelStateError = value;
   }
 }

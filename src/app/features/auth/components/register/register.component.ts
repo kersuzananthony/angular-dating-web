@@ -1,46 +1,52 @@
-import {Component, EventEmitter, Inject, OnInit, Output} from "@angular/core";
-import {BaseComponent} from "@app/shared/components/base.component";
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit,
+  Output
+} from "@angular/core";
 import {RegistrationRequest} from "@app/core/models/requests/registration-request.model";
-import {AUTH_SERVICE, IAuthService} from "@app/core/services/auth.service";
+import {BaseSandboxComponent} from "@shared/components/base-sandbox.component";
+import {AuthSandbox} from "@app/features/auth/auth.sandbox";
+import "rxjs/add/observable/combineLatest";
 
 @Component({
   selector: "app-register",
   templateUrl: "./register.component.html",
-  styleUrls: ["./register.component.scss"]
+  styleUrls: ["./register.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterComponent extends BaseComponent implements OnInit {
+export class RegisterComponent extends BaseSandboxComponent<AuthSandbox> implements OnInit {
 
   @Output() cancelRegister = new EventEmitter<boolean>();
 
   public model: RegistrationRequest = {};
 
-  constructor(@Inject(AUTH_SERVICE) private _authService: IAuthService) {
-    super();
+  constructor(private _changeDetector: ChangeDetectorRef,
+              authSandbox: AuthSandbox) {
+    super(authSandbox);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
+    this.sandbox.authErrorState$
+      .subscribe(state => {
+        this.setModelStateError(state);
+        this._changeDetector.markForCheck();
+      });
+
+    this.sandbox.registeredSuccess$
+      .filter(success => success)
+      .subscribe(() => {
+        this._clearForm();
+        this._changeDetector.markForCheck();
+        this.cancelRegister.emit(false);
+      });
   }
 
   public register() {
-    this._clearError();
-    this._authService.register(this.model)
-      .subscribe(
-        () => this._onRegistrationSuccess(),
-        err => {
-          this._messageService.error("Some errors happened during the registration.");
-          this._handleError(err);
-        }
-      );
+    this.sandbox.register(this.model);
   }
 
   public cancel() {
     this._clearForm();
     this.cancelRegister.emit(false);
-  }
-
-  private _onRegistrationSuccess() {
-    this._clearForm();
-    this._messageService.success("You have successfully signed up!");
   }
 
   private _clearForm() {

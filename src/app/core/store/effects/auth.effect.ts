@@ -41,6 +41,20 @@ export class AuthEffects {
   }
 
   /**
+   * Registration Effect
+   */
+  @Effect()
+  public doRegister$(): Observable<Action> {
+    return this._actions$.ofType(actions.ActionTypes.DO_REGISTER)
+      .map((action: actions.DoRegisterAction) => action.payload)
+      .switchMap(payload => {
+        return this._authService.register(payload)
+          .map(() => new actions.DoRegisterSuccessAction())
+          .catch(err => of(new actions.DoRegisterFailAction(err)));
+      });
+  }
+
+  /**
    * Logout Effect
    */
   @Effect()
