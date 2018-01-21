@@ -22,6 +22,8 @@ export abstract class BaseSandboxComponent<TSandbox extends BaseSandbox> extends
 
   public ngOnDestroy() {
     this._sandbox.unregisterEvents();
+
+    super.ngOnDestroy();
   }
 }
 

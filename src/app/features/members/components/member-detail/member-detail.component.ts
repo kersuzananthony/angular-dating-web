@@ -36,7 +36,10 @@ export class MemberDetailComponent extends BaseSandboxComponent<MemberDetailSand
   }
 
   public ngOnInit() {
-    this._activatedRoute.data.subscribe(data => this._user = data["user"]);
+    super.ngOnInit();
+
+    const routeSubscription = this._activatedRoute.data.subscribe(data => this._user = data["user"]);
+    this._subscriptions.push(routeSubscription);
 
     this._galleryOptions = [{
       width: "500px",

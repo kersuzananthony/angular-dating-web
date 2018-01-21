@@ -48,6 +48,14 @@ export class AuthSandbox extends BaseSandbox {
     this._appState$.dispatch(new authActions.DoRegisterAction(model));
   }
 
+  public unloadRegister() {
+    this._appState$.dispatch(new authActions.DoUnloadRegisterAction());
+  }
+
+  public unloadLogin() {
+    this._appState$.dispatch(new authActions.DoUnloadLogin());
+  }
+
   private _loginFailedSubscription(): Subscription {
     return this.loginFailed$.subscribe((failed: boolean) => {
       if (failed) this.messageService.error("Failed to login.");

@@ -8,6 +8,7 @@ export const ActionTypes = {
   DO_LOGIN:             type("[Auth] DoLogin"),
   DO_LOGIN_SUCCESS:     type("[Auth] DoLoginSuccess"),
   DO_LOGIN_FAIL:        type("[Auth] DoLoginFail"),
+  DO_UNLOAD_LOGIN:      type("[Auth] DoUnloadLogin"),
 
   DO_LOAD_TOKEN:        type("[Auth] DoCheckLoggedIn"),
   DID_LOAD_TOKEN:       type("[Auth] DidCheckLoggedIn"),
@@ -18,7 +19,8 @@ export const ActionTypes = {
 
   DO_REGISTER:          type("[Auth] DoRegister"),
   DO_REGISTER_SUCCESS:  type("[Auth] DoRegisterSuccess"),
-  DO_REGISTER_FAIL:     type("[Auth] DoRegisterFail")
+  DO_REGISTER_FAIL:     type("[Auth] DoRegisterFail"),
+  DO_UNLOAD_REGISTER:   type("[Auth] DoUnloadRegister")
 };
 
 /**
@@ -38,6 +40,12 @@ export class DoLoginSuccessAction implements Action {
 
 export class DoLoginFailAction implements Action {
   public readonly type = ActionTypes.DO_LOGIN_FAIL;
+
+  constructor(public payload: any = null) {}
+}
+
+export class DoUnloadLogin implements Action {
+  public readonly type = ActionTypes.DO_UNLOAD_LOGIN;
 
   constructor(public payload: any = null) {}
 }
@@ -78,6 +86,12 @@ export class DoRegisterFailAction implements Action {
   constructor(public payload: any = null) {}
 }
 
+export class DoUnloadRegisterAction implements Action {
+  public readonly type = ActionTypes.DO_UNLOAD_REGISTER;
+
+  constructor(public payload: any = null) {}
+}
+
 /**
  * Logout Actions
  */
@@ -112,6 +126,7 @@ export type Actions
   | DoRegisterAction
   | DoRegisterSuccessAction
   | DoRegisterFailAction
+  | DoUnloadRegisterAction
   | DoLogoutAction
   | DoLogoutSuccessAction
   | DoLogoutFailAction;

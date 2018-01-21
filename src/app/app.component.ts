@@ -15,6 +15,8 @@ export class AppComponent extends BaseSandboxComponent<AppSandbox> implements On
   }
 
   ngOnInit() {
+    super.ngOnInit();
+
     this.sandbox.onAppInit();
   }
 }

@@ -31,17 +31,20 @@ export class MemberEditComponent extends BaseSandboxComponent<MemberEditSandbox>
   public ngOnInit() {
     super.ngOnInit();
 
-    this._activatedRoute.data.subscribe(data => {
+    const routeSubscription = this._activatedRoute.data.subscribe(data => {
       this._user = data["user"];
       this._changeDetector.markForCheck();
     });
 
-    this.sandbox.memberEditUpdated$.subscribe(updated => {
+    const memberEditUpdatedSubscription = this.sandbox.memberEditUpdated$.subscribe(updated => {
       if (updated) {
         this.form.reset(this._user);
         this._changeDetector.markForCheck();
       }
     });
+
+    this._subscriptions.push(routeSubscription);
+    this._subscriptions.push(memberEditUpdatedSubscription);
   }
 
   public ngOnDestroy() {

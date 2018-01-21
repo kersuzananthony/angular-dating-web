@@ -40,6 +40,9 @@ export function reducer(state = INITIAL_STATE, action: actions.Actions): State {
     case actions.ActionTypes.DO_LOGIN_SUCCESS:
       return { ...state, loading: false, loaded: true, failed: false, token: action.payload };
 
+    case actions.ActionTypes.DO_UNLOAD_LOGIN:
+      return { ...state, loaded: false, failed: false, errorMessage: null, loading: false };
+
     case actions.ActionTypes.DO_LOAD_TOKEN:
       return { ...state };
 
@@ -62,6 +65,9 @@ export function reducer(state = INITIAL_STATE, action: actions.Actions): State {
       } else {
         return { ...state, registerFailed: true, registering: false, registered: false, errorMessage: err };
       }
+
+    case actions.ActionTypes.DO_UNLOAD_REGISTER:
+      return { ...state, registerFailed: false, registered: false, registering: false, errorState: null, errorMessage: null };
 
     default:
       return { ...state };

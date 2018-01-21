@@ -21,10 +21,14 @@ export class MemberListComponent extends BaseSandboxComponent<MembersSandbox> im
   }
 
   ngOnInit() {
-    this._activatedRoute.data.subscribe(data => {
+    super.ngOnInit();
+
+    const routeSubscription = this._activatedRoute.data.subscribe(data => {
       this._users = data["users"];
       this._changeDetector.markForCheck();
     });
+
+    this._subscriptions.push(routeSubscription);
   }
 
   get users(): User[] {
