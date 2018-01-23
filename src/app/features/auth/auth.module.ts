@@ -6,8 +6,6 @@ import {UIKitModule} from "@app/shared/uikit/uikit.module";
 import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
 
-import {AuthSandbox} from "./auth.sandbox";
-
 @NgModule({
   imports: [
     CommonModule,
@@ -17,9 +15,6 @@ import {AuthSandbox} from "./auth.sandbox";
   declarations: [
     RegisterComponent,
     LoginComponent
-  ],
-  providers: [
-    AuthSandbox
   ],
   exports: [
     RegisterComponent,

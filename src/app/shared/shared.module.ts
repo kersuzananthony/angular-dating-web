@@ -10,8 +10,8 @@ import {LoadingBarRouterModule} from "@ngx-loading-bar/router";
   imports: [
     FormsModule,
     RouterModule,
-    BsDropdownModule.forRoot(),
-    TabsModule.forRoot(),
+    BsDropdownModule,
+    TabsModule,
     NgxGalleryModule,
     LoadingBarHttpClientModule,
     LoadingBarRouterModule
