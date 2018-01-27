@@ -3,6 +3,7 @@ import {Action} from "@ngrx/store";
 import {LoginRequest} from "../../models/requests/login-request.model";
 import {Token} from "../../models/token.model";
 import {RegistrationRequest} from "@core/models/requests/registration-request.model";
+import {User} from "@core/models/user.model";
 
 export const ActionTypes = {
   DO_LOGIN:             type("[Auth] DoLogin"),
@@ -12,6 +13,10 @@ export const ActionTypes = {
 
   DO_LOAD_TOKEN:        type("[Auth] DoCheckLoggedIn"),
   DID_LOAD_TOKEN:       type("[Auth] DidCheckLoggedIn"),
+
+  DO_LOAD_USER:         type("[Auth] DoLoadUser"),
+  DO_LOAD_USER_SUCCESS: type("[Auth] DoLoadUserSuccess"),
+  DO_LOAD_USER_FAIL:    type("[Auth] DoLoadUserFail"),
 
   DO_LOGOUT:            type("[Auth] DoLogout"),
   DO_LOGOUT_SUCCESS:    type("[Auth] DoLogoutSuccess"),
@@ -35,7 +40,7 @@ export class DoLoginAction implements Action {
 export class DoLoginSuccessAction implements Action {
   public readonly type = ActionTypes.DO_LOGIN_SUCCESS;
 
-  constructor(public payload: Token) {}
+  constructor(public payload: {token: Token, user?: User}) {}
 }
 
 export class DoLoginFailAction implements Action {
@@ -63,6 +68,27 @@ export class DidLoadTokenAction implements Action {
   public readonly type = ActionTypes.DID_LOAD_TOKEN;
 
   constructor(public payload: Token = null) {}
+}
+
+/**
+ * Load User
+ */
+export class DoLoadUserAction implements Action {
+  public readonly type = ActionTypes.DO_LOAD_USER;
+
+  constructor(public payload: Token) {}
+}
+
+export class DoLoadUserSuccessAction implements Action {
+  public readonly type = ActionTypes.DO_LOAD_USER_SUCCESS;
+
+  constructor(public payload: User) {}
+}
+
+export class DoLoadUserFailAction implements Action {
+  public readonly type = ActionTypes.DO_LOAD_USER_FAIL;
+
+  constructor(public payload: any = null) {}
 }
 
 /**
@@ -123,6 +149,9 @@ export type Actions
   | DoLoginFailAction
   | DoLoadTokenAction
   | DidLoadTokenAction
+  | DoLoadUserAction
+  | DoLoadUserSuccessAction
+  | DoLoadUserFailAction
   | DoRegisterAction
   | DoRegisterSuccessAction
   | DoRegisterFailAction

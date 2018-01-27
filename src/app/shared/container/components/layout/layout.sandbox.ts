@@ -13,6 +13,7 @@ export class LayoutSandbox extends BaseSandbox {
   private static readonly TOKEN_UPDATE_KEY = "token_update";
 
   public authToken$ = this._appState$.select(store.getAuthToken);
+  public authUser$  = this._appState$.select(store.getAuthUser);
 
   constructor(@Inject(AUTH_SERVICE) private _authService: IAuthService,
               protected _appState$: Store<store.State>) {

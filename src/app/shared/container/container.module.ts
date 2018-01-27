@@ -1,4 +1,4 @@
-import {NgModule} from "@angular/core";
+import {ModuleWithProviders, NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "@app/shared/shared.module";
 import {AuthModule} from "@app/features/auth/auth.module";
@@ -18,11 +18,17 @@ import {LayoutSandbox} from "./components/layout/layout.sandbox";
     LayoutComponent,
     NavComponent
   ],
-  providers: [
-    LayoutSandbox
-  ],
   exports: [
     LayoutComponent
   ]
 })
-export class ContainerModule {}
+export class ContainerModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: ContainerModule,
+      providers: [
+        LayoutSandbox
+      ]
+    };
+  }
+}

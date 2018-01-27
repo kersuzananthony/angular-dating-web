@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common";
 import {HomeComponent} from "./components/home/home.component";
 import {HomeRouting} from "./home.routing";
 import {AuthModule} from "../auth/auth.module";
+import {HomeSandbox} from "@app/features/home/home.sandbox";
 
 @NgModule({
   imports: [
@@ -12,6 +13,9 @@ import {AuthModule} from "../auth/auth.module";
   ],
   declarations: [
     HomeComponent
+  ],
+  providers: [
+    HomeSandbox
   ]
 })
 export class HomeModule {}

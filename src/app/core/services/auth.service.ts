@@ -10,11 +10,12 @@ import {RegistrationRequest} from "../models/requests/registration-request.model
 import "rxjs/add/operator/map";
 import {Token} from "../models/token.model";
 import {of} from "rxjs/observable/of";
+import {User} from "@core/models/user.model";
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>("IAuthService");
 
 export interface IAuthService {
-  login(model: LoginRequest): Observable<Token>;
+  login(model: LoginRequest): Observable<{token: Token, user: User}>;
   register(model: RegistrationRequest): Observable<void>;
   loadTokenIfValid(): Observable<Token>;
   logout(): Observable<void>;
@@ -31,11 +32,11 @@ export class AuthService implements IAuthService {
               private _jwtHelpersService: JwtHelperService) {
   }
 
-  public login(model: LoginRequest): Observable<Token> {
+  public login(model: LoginRequest): Observable<{token: Token, user: User}> {
     return this._networkService.post(AuthService.ENDPOINT_LOGIN, model)
       .map((response: LoginResponse) => {
         this._storageService.setAuthToken(response.token);
-        return this._buildToken();
+        return {token: this._buildToken(), user: response.user};
       });
   }
 

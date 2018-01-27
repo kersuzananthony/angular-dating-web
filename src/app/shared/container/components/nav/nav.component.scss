@@ -1,3 +1,9 @@
 .dropdown li, .dropdown-toggle {
   cursor: pointer;
 }
+
+img {
+  max-height: 50px;
+  border: solid 2px white;
+  display: inline;
+}

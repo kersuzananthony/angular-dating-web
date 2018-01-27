@@ -45,4 +45,36 @@ export class MemberEditEffects {
           .catch(error => of(new memberEditActions.DoUpdateFailAction(error)));
       });
   }
+
+  @Effect()
+  public doSetMainPhoto$(): Observable<Action> {
+    return this._actions$.ofType(memberEditActions.ActionTypes.DO_SET_PHOTO_MAIN)
+      .mergeMap((action: memberEditActions.DoSetMainPhotoAction) => {
+        return Observable.combineLatest(
+          of(action.payload),
+          this._appState$.select(getAuthToken).take(1)
+        );
+      })
+      .switchMap(([payload, token]) => {
+        return this._userService.setMainPhoto(token, payload)
+          .map(() => new memberEditActions.DoSetMainPhotoSuccessAction(payload))
+          .catch(() => of(new memberEditActions.DoSetMainPhotoErrorAction()));
+      });
+  }
+
+  @Effect()
+  public doDeletePhoto$(): Observable<Action> {
+    return this._actions$.ofType(memberEditActions.ActionTypes.DO_DELETE_PHOTO)
+      .mergeMap((action: memberEditActions.DoSetMainPhotoAction) => {
+        return Observable.combineLatest(
+          of(action.payload),
+          this._appState$.select(getAuthToken).take(1)
+        );
+      })
+      .switchMap(([payload, token]) => {
+        return this._userService.deletePhoto(token, payload)
+          .map(() => new memberEditActions.DoDeletePhotoSuccessAction(payload))
+          .catch(() => of(new memberEditActions.DoDeletePhotoFailAction()));
+      });
+  }
 }

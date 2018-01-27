@@ -30,6 +30,8 @@ import {BsDropdownModule, TabsModule} from "ngx-bootstrap";
 
 import {AuthSandbox} from "@app/features/auth/auth.sandbox"; // Prevent duplicate services
 
+import {ApplicationEventBus} from "@core/event-bus/application-event-bus.service";
+
 export function jwtTokenGetter() {
   return localStorage.getItem(ServiceLocator.getInjector().get(KEY_AUTH_TOKEN));
 }
@@ -67,6 +69,7 @@ export class CoreModule {
         AuthGuard,
         AuthSandbox,
         PreventUnsavedChangesGuard,
+        ApplicationEventBus,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: AuthInterceptor,

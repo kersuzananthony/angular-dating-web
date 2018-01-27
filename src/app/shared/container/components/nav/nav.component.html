@@ -19,6 +19,7 @@
       <app-login *ngIf="!token"></app-login>
 
 			<ul *ngIf="!!token" class="nav navbar-nav navbar-right">
+        <li *ngIf="user?.photoUrl"><img [src]="user?.photoUrl" alt="user?.knownAs"></li>
 				<li class="dropdown" dropdown>
 					<a (click)="$event.preventDefault" class="dropdown-toggle" dropdownToggle>Welcome {{ token?.decodedToken?.unique_name | titlecase }} <span class="caret"></span></a>
 					<ul class="dropdown-menu" *dropdownMenu>

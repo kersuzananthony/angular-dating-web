@@ -1,5 +1,6 @@
 <app-nav
   [token]="sandbox.authToken$ | async"
+  [user]="sandbox.authUser$ | async"
   (logout)="onLogout()">
 </app-nav>
 <div class="content" style="margin-top: 70px;">

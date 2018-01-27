@@ -6,6 +6,7 @@ import {MemberListComponent} from "./components/member-list/member-list.componen
 import {MemberDetailComponent} from "./components/member-detail/member-detail.component";
 import {MemberItemComponent} from "./components/member-item/member-item.component";
 import {MemberEditComponent} from "./components/member-edit/member-edit.component";
+import {MemberPhotoEditorComponent} from "@members/components/member-photo-editor/member-photo-editor.component";
 
 import {MemberListResolver} from "./resolvers/member-list.resolver";
 import {MemberDetailResolver} from "./resolvers/member-detail.resolver";
@@ -26,7 +27,8 @@ import {MemberEditSandbox} from "@members/sandbox/member-edit.sandbox";
     MemberListComponent,
     MemberDetailComponent,
     MemberItemComponent,
-    MemberEditComponent
+    MemberEditComponent,
+    MemberPhotoEditorComponent
   ],
   providers: [
     MemberListResolver,

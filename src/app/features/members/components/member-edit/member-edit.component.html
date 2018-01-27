@@ -12,7 +12,7 @@
   <div class="row">
     <div class="col-sm-4">
       <div class="panel panel-default">
-        <img class="profile-image thumbnail" [src]="user.photoUrl" [alt]="user.knownAs">
+        <img *ngIf="user.photoUrl" class="profile-image thumbnail" [src]="user.photoUrl" [alt]="user.knownAs">
         <div class="panel-body">
           <div>
             <strong>Location: </strong>
@@ -66,7 +66,14 @@
             </form>
           </tab>
           <tab heading="Edit Photos">
-            Edit Photos
+            <app-member-photo-editor
+              [photos]="user.photos"
+              [token]="sandbox.userToken$ | async"
+              (updateMainPhoto)="onUpdateMainPhoto($event)"
+              (deletePhoto)="onDeletePhoto($event)"
+              (uploadPhotoError)="sandbox.photoUploadError()"
+              (uploadPhotoSuccess)="sandbox.photoUploadSuccess($event)">
+            </app-member-photo-editor>
           </tab>
         </tabset>
       </div>

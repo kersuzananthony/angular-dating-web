@@ -31,6 +31,7 @@ export const reducers: ActionReducerMap<State> = {
  */
 export const getAuthState           = (state: State) => state.auth;
 export const getAuthToken           = createSelector(getAuthState, fromAuth.getToken);
+export const getAuthUser            = createSelector(getAuthState, fromAuth.getUser);
 export const getAuthLoading         = createSelector(getAuthState, fromAuth.getLoading);
 export const getAuthLoaded          = createSelector(getAuthState, fromAuth.getLoaded);
 export const getAuthFailed          = createSelector(getAuthState, fromAuth.getFailed);
@@ -71,5 +72,12 @@ export const getMemberEditUpdated       = createSelector(getMemberEditState, fro
 export const getMemberEditUpdateFail    = createSelector(getMemberEditState, fromMemberEdit.getUpdateFailed);
 export const getMemberEditErrorMessage  = createSelector(getMemberEditState, fromMemberEdit.getUpdateErrorMessage);
 export const getMemberEditErrorState    = createSelector(getMemberEditState, fromMemberEdit.getUpdateErrorState);
+
+export const getMemberEditSettingMainPhotoError   = createSelector(getMemberEditState, fromMemberEdit.getSettingMainPhotoError);
+export const getMemberEditSettingMainPhotoSuccess = createSelector(getMemberEditState, fromMemberEdit.getSettingMainPhotoSuccess);
+export const getMemberEditDeletingPhoto           = createSelector(getMemberEditState, fromMemberEdit.getDeletingPhoto);
+export const getMemberEditDeletingPhotoSuccess    = createSelector(getMemberEditState, fromMemberEdit.getDeletingPhotoSuccess);
+export const getMemberEditDeletingPhotoFail       = createSelector(getMemberEditState, fromMemberEdit.getDeletingPhotoFail);
+
 
 

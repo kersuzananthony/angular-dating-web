@@ -5,6 +5,7 @@ import {BsDropdownModule, TabsModule} from "ngx-bootstrap";
 import {NgxGalleryModule} from "ngx-gallery";
 import {LoadingBarHttpClientModule} from "@ngx-loading-bar/http-client";
 import {LoadingBarRouterModule} from "@ngx-loading-bar/router";
+import {FileUploadModule} from "ng2-file-upload";
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import {LoadingBarRouterModule} from "@ngx-loading-bar/router";
     BsDropdownModule,
     TabsModule,
     NgxGalleryModule,
+    FileUploadModule,
     LoadingBarHttpClientModule,
     LoadingBarRouterModule
   ],
@@ -22,6 +24,7 @@ import {LoadingBarRouterModule} from "@ngx-loading-bar/router";
     BsDropdownModule,
     TabsModule,
     NgxGalleryModule,
+    FileUploadModule,
     LoadingBarRouterModule,
     LoadingBarHttpClientModule
   ]

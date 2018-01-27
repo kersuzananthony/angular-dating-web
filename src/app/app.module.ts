@@ -20,7 +20,7 @@ import {ContainerModule} from "@shared/container/container.module";
     SharedModule,
     CoreModule.forRoot(),
     UIKitModule,
-    ContainerModule
+    ContainerModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })

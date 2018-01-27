@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from "@angular/core";
-import {BaseComponent} from "../../../components/base.component";
-import {Token} from "../../../../core/models/token.model";
+import {BaseComponent} from "@shared/components/base.component";
+import {Token} from "@core/models/token.model";
+import {User} from "@core/models/user.model";
 
 @Component({
   selector: "app-nav",
@@ -11,6 +12,7 @@ import {Token} from "../../../../core/models/token.model";
 export class NavComponent extends BaseComponent {
 
   @Input() token: Token;
+  @Input() user: User;
 
   @Output() logout = new EventEmitter<void>();
 
