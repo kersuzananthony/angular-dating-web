@@ -11,7 +11,6 @@ export interface INetworkService {
   post<T>(path: string, payload: any): Observable<T>;
   put<T>(path: string, payload: any): Observable<T>;
   delete<T>(path: string): Observable<T>;
-  uploadRequest<T>(path: string, method: string, defaultContentType: string, file: File): Observable<HttpEvent<T>>;
 }
 
 @Injectable()
@@ -37,24 +36,6 @@ export class NetworkService implements INetworkService {
 
   public delete<T>(path: string): Observable<T> {
     return this._http.delete<T>(this._buildUrl(path));
-  }
-
-  public uploadRequest<T>(path: string, method: string, defaultContentType: string, file: File): Observable<HttpEvent<T>> {
-    return this._http.request(this._buildFileRequest(path, method, defaultContentType, file));
-  }
-
-  private _buildFileRequest(path: string, method: string, defaultContentType: string, file: File): HttpRequest<File> {
-    return new HttpRequest(
-      method,
-      this._buildUrl(path),
-      file,
-      {
-        headers: new HttpHeaders({
-          "Content-Type": file.type || defaultContentType
-        }),
-        reportProgress: true
-      }
-    );
   }
 
   private _buildUrl(path: string): string {
