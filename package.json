@@ -41,6 +41,7 @@
     "ngx-gallery": "^4.1.2",
     "reselect": "3.0.1",
     "rxjs": "5.5.3",
+    "time-ago-pipe": "1.2.1",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {

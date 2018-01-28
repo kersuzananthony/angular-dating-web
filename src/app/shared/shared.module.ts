@@ -6,6 +6,7 @@ import {NgxGalleryModule} from "ngx-gallery";
 import {LoadingBarHttpClientModule} from "@ngx-loading-bar/http-client";
 import {LoadingBarRouterModule} from "@ngx-loading-bar/router";
 import {FileUploadModule} from "ng2-file-upload";
+import {PipeModule} from "@shared/pipe/pipe.module";
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {FileUploadModule} from "ng2-file-upload";
     NgxGalleryModule,
     FileUploadModule,
     LoadingBarHttpClientModule,
-    LoadingBarRouterModule
+    LoadingBarRouterModule,
+    PipeModule
   ],
   exports: [
     FormsModule,
@@ -30,7 +32,8 @@ import {FileUploadModule} from "ng2-file-upload";
     NgxGalleryModule,
     FileUploadModule,
     LoadingBarRouterModule,
-    LoadingBarHttpClientModule
+    LoadingBarHttpClientModule,
+    PipeModule
   ]
 })
 export class SharedModule {}
