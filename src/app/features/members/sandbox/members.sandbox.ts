@@ -4,16 +4,19 @@ import * as membersActions from "@core/store/actions/members.action";
 import * as store from "@core/store";
 import {Store} from "@ngrx/store";
 import {Subscription} from "rxjs/Subscription";
+import {UserQuery} from "@core/models/queries/user-query.model";
+import {isNullOrUndefined} from "util";
 
 @Injectable()
 export class MembersSandbox extends BaseSandbox {
 
   private static readonly LOAD_FAILED_KEY = "load_failed";
 
-  public membersData$   = this._appState$.select(store.getMembersData);
-  public membersLoaded$ = this._appState$.select(store.getMembersLoaded);
-  public membersFailed$ = this._appState$.select(store.getMembersFailed);
-  public membersLoading$ = this._appState$.select(store.getMembersLoading);
+  public membersData$     = this._appState$.select(store.getMembersData);
+  public membersLoaded$   = this._appState$.select(store.getMembersLoaded);
+  public membersFailed$   = this._appState$.select(store.getMembersFailed);
+  public membersQuery$    = this._appState$.select(store.getMembersQuery);
+  public membersLoading$  = this._appState$.select(store.getMembersLoading);
 
   constructor(protected _appState$: Store<store.State>) {
     super(_appState$);
@@ -27,6 +30,12 @@ export class MembersSandbox extends BaseSandbox {
 
   public loadUsers(): void {
     this._appState$.dispatch(new membersActions.DoFetchAction());
+  }
+
+  public updateQuery(query: UserQuery): void {
+    if (isNullOrUndefined(query)) return;
+
+    this._appState$.dispatch(new membersActions.DoUpdateQuery(query));
   }
 
   private _loadFailedSubscription(): Subscription {

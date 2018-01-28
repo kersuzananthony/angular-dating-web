@@ -7,11 +7,13 @@ import {isNullOrUndefined} from "util";
 import {Photo} from "@core/models/photo.model";
 import {of} from "rxjs/observable/of";
 import "rxjs/add/observable/merge";
+import {QueryResponse} from "@core/models/responses/query-response.model";
+import {UserQuery} from "@core/models/queries/user-query.model";
 
 export const USER_SERVICE = new InjectionToken<IUserService>("IUserService");
 
 export interface IUserService {
-  getUsers(): Observable<User[]>;
+  getUsers(query: UserQuery): Observable<QueryResponse<User>>;
   getUser(id: number): Observable<User>;
   getUserByToken(token: Token): Observable<User>;
   updateUser(token: Token, user: User): Observable<any>;
@@ -27,8 +29,8 @@ export class UserService implements IUserService {
 
   constructor(@Inject(NETWORK_SERVICE) private _networkService: INetworkService) {}
 
-  public getUsers(): Observable<User[]> {
-    return this._networkService.get(UserService.ENDPOINT_USERS);
+  public getUsers(query: UserQuery): Observable<QueryResponse<User>> {
+    return this._networkService.get(UserService.ENDPOINT_USERS, query);
   }
 
   public getUser(id: number): Observable<User> {

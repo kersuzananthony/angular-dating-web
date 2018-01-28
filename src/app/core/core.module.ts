@@ -1,4 +1,5 @@
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from "@angular/core";
+import {BsDatepickerModule, BsDropdownModule, PaginationModule, TabsModule} from "ngx-bootstrap";
 import {HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
 import {ApplicationHammerConfig} from "./config/application-hammer.config";
 import {StoreModule} from "@ngrx/store";
@@ -26,7 +27,6 @@ import {AuthEffects} from "./store/effects/auth.effect";
 import {MembersEffects} from "@core/store/effects/members.effect";
 import {MemberDetailEffects} from "@core/store/effects/member-detail.effect";
 import {MemberEditEffects} from "@core/store/effects/member-edit.effect";
-import {BsDatepickerModule, BsDropdownModule, TabsModule} from "ngx-bootstrap";
 
 import {AuthSandbox} from "@app/features/auth/auth.sandbox"; // Prevent duplicate services
 
@@ -41,6 +41,7 @@ export function jwtTokenGetter() {
     HttpClientModule,
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
+    PaginationModule.forRoot(),
     TabsModule.forRoot(),
     JwtModule.forRoot({
       config: {

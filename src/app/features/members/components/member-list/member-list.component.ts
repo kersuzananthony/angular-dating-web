@@ -2,7 +2,9 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from "@an
 import {User} from "@core/models/user.model";
 import {BaseSandboxComponent} from "@shared/components/base-sandbox.component";
 import {MembersSandbox} from "@members/sandbox/members.sandbox";
-import {ActivatedRoute} from "@angular/router";
+import {isNullOrUndefined} from "util";
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/operator/takeUntil";
 
 @Component({
   selector: "app-member-list",
@@ -12,26 +14,54 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class MemberListComponent extends BaseSandboxComponent<MembersSandbox> implements OnInit {
 
+  private static readonly ITEMS_PER_PAGE = 20;
+
   private _users: User[];
+  get users(): User[] {
+    return this._users;
+  }
+
+  public page = 1;
+
+  get itemsPerPage(): number {
+    return MemberListComponent.ITEMS_PER_PAGE;
+  }
+
+  private _totalItems: number;
+  get totalItems(): number {
+    return this._totalItems;
+  }
 
   constructor(private _changeDetector: ChangeDetectorRef,
-              private _activatedRoute: ActivatedRoute,
               membersSandbox: MembersSandbox) {
     super(membersSandbox);
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     super.ngOnInit();
 
-    const routeSubscription = this._activatedRoute.data.subscribe(data => {
-      this._users = data["users"];
-      this._changeDetector.markForCheck();
-    });
-
-    this._subscriptions.push(routeSubscription);
+    Observable.combineLatest(this.sandbox.membersData$, this.sandbox.membersLoaded$, this.sandbox.membersFailed$)
+      .takeUntil(this.destroyed$)
+      .filter(([data, loaded, failed]) => {
+        return (loaded && !isNullOrUndefined(data) || failed);
+      })
+      .subscribe(([data, loaded, failed]) => {
+        this._totalItems = (data && data.totalItems) || 0;
+        this._users = (data && data.results) || [];
+        this._stateChanged();
+      });
   }
 
-  get users(): User[] {
-    return this._users;
+  public onPageChanged(event: any) {
+    if (isNullOrUndefined(event)) return;
+
+    this.sandbox.updateQuery({
+      page: event.page,
+      pageSize: event.itemsPerPage
+    });
+  }
+
+  private _stateChanged() {
+    this._changeDetector.markForCheck();
   }
 }

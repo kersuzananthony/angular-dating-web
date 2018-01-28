@@ -9,7 +9,7 @@ import {MemberEditComponent} from "./components/member-edit/member-edit.componen
 import {ModuleWithProviders} from "@angular/core";
 
 const routes: Routes = [
-  {path: "", component: MemberListComponent, resolve: {users: MemberListResolver}, pathMatch: "full"},
+  {path: "", component: MemberListComponent, resolve: {response: MemberListResolver}, pathMatch: "full"},
   {path: "edit", component: MemberEditComponent, resolve: {user: MemberEditResolver}, canDeactivate: [PreventUnsavedChangesGuard]},
   {path: ":id", component: MemberDetailComponent, resolve: {user: MemberDetailResolver}}
 ];

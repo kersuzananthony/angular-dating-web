@@ -17,10 +17,17 @@ export class MembersEffects {
   @Effect()
   public doFetch$(): Observable<Action> {
     return this._actions$.ofType(membersActions.ActionTypes.DO_FETCH)
-      .switchMap(() => {
-        return this._userService.getUsers()
+      .mergeMap(() => this._appState$.select(store.getMembersQuery).take(1))
+      .switchMap(query => {
+        return this._userService.getUsers(query)
           .map(users => new membersActions.DoFetchActionSuccess(users))
           .catch(() => of(new membersActions.DoFetchActionFail()));
       });
+  }
+
+  @Effect()
+  public doUpdateQuery$(): Observable<Action> {
+    return this._actions$.ofType(membersActions.ActionTypes.DO_UPDATE_QUERY)
+      .map(() => new membersActions.DoFetchAction());
   }
 }

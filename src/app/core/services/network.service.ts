@@ -3,11 +3,12 @@ import {Injectable, InjectionToken} from "@angular/core";
 import {HttpClient, HttpEvent, HttpHeaders, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/catch";
+import {isNullOrUndefined} from "util";
 
 export const NETWORK_SERVICE = new InjectionToken<INetworkService>("INetworkService");
 
 export interface INetworkService {
-  get<T>(path: string): Observable<T>;
+  get<T>(path: string, query?: {[key: string]: any}): Observable<T>;
   post<T>(path: string, payload: any): Observable<T>;
   put<T>(path: string, payload: any): Observable<T>;
   delete<T>(path: string): Observable<T>;
@@ -22,8 +23,8 @@ export class NetworkService implements INetworkService {
     this._setBaseUrl();
   }
 
-  public get<T>(path: string): Observable<T> {
-    return this._http.get<T>(this._buildUrl(path));
+  public get<T>(path: string, query?: {[key: string]: any}): Observable<T> {
+    return this._http.get<T>(this._buildUrl(path, query));
   }
 
   public post<T>(path: string, payload: any): Observable<T> {
@@ -38,8 +39,18 @@ export class NetworkService implements INetworkService {
     return this._http.delete<T>(this._buildUrl(path));
   }
 
-  private _buildUrl(path: string): string {
-    return `${this._baseUrl}${path}`;
+  private _buildUrl(path: string, query?: {[key: string]: any}): string {
+    if (isNullOrUndefined(query) || Object.keys(query).length < 1) return `${this._baseUrl}${path}`;
+
+    const queryParams = [];
+    for (const key of Object.keys(query)) {
+      const value = query[key];
+      if (!isNullOrUndefined(value) && value.toString().trim() !== "") {
+        queryParams.push(`${encodeURI(key)}=${encodeURI(value)}`);
+      }
+    }
+
+    return `${this._baseUrl}${path}?${queryParams.join("&")}`;
   }
 
   private _setBaseUrl() {

@@ -8,19 +8,20 @@ import "rxjs/add/operator/mergeMap";
 import "rxjs/add/operator/filter";
 import "rxjs/add/operator/take";
 import {isNullOrUndefined} from "util";
+import {QueryResponse} from "@core/models/responses/query-response.model";
 
 @Injectable()
-export class MemberListResolver implements Resolve<User[]> {
+export class MemberListResolver implements Resolve<QueryResponse<User>> {
 
   constructor(private _membersSandbox: MembersSandbox) {}
 
-  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<User[]> {
+  public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<QueryResponse<User>> {
     this._membersSandbox.loadUsers();
 
     return this._waitForResponse();
   }
 
-  private _waitForResponse(): Observable<User[]> {
+  private _waitForResponse(): Observable<QueryResponse<User>> {
     return Observable.combineLatest(
       this._membersSandbox.membersLoaded$,
       this._membersSandbox.membersFailed$,
