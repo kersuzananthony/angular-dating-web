@@ -37,7 +37,6 @@ export class AuthSandbox extends BaseSandbox {
     this._registerEvent(AuthSandbox.LOGIN_FAIL_KEY, this._loginFailedSubscription.bind(this));
     this._registerEvent(AuthSandbox.LOGIN_SUCCESS_KEY, this._loginSuccessSubscription.bind(this));
     this._registerEvent(AuthSandbox.REGISTER_FAIL_KEY, this._registerFailSubscription.bind(this));
-    this._registerEvent(AuthSandbox.REGISTER_SUCCESS_KEY, this._registerSuccessSubscription.bind(this));
   }
 
   public login(model: LoginRequest) {
@@ -69,12 +68,6 @@ export class AuthSandbox extends BaseSandbox {
         this.messageService.success("You have successfully logged in.");
         this._router.navigate(["/members"]);
       });
-  }
-
-  private _registerSuccessSubscription(): Subscription {
-    return this.registeredSuccess$
-      .filter(registered => registered)
-      .subscribe(() => this.messageService.success("You have successfully signed up!"));
   }
 
   private _registerFailSubscription(): Subscription {

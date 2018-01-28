@@ -6,6 +6,9 @@ import {RegistrationRequest} from "@app/core/models/requests/registration-reques
 import {BaseSandboxComponent} from "@shared/components/base-sandbox.component";
 import {AuthSandbox} from "@app/features/auth/auth.sandbox";
 import "rxjs/add/observable/combineLatest";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {controlMatch} from "@core/validators";
+import {BsDatepickerConfig} from "ngx-bootstrap";
 
 @Component({
   selector: "app-register",
@@ -18,14 +21,23 @@ export class RegisterComponent extends BaseSandboxComponent<AuthSandbox> impleme
   @Output() cancelRegister = new EventEmitter<boolean>();
 
   public model: RegistrationRequest = {};
+  public bsConfig: Partial<BsDatepickerConfig>;
+  registerForm: FormGroup;
 
   constructor(private _changeDetector: ChangeDetectorRef,
+              private _formBuilder: FormBuilder,
               authSandbox: AuthSandbox) {
     super(authSandbox);
   }
 
   public ngOnInit() {
     super.ngOnInit();
+
+    this.bsConfig = {
+      containerClass: "theme-red"
+    };
+
+    this._buildForm();
 
     const authErrorStateSubscription = this.sandbox.authErrorState$
       .subscribe(state => {
@@ -52,7 +64,10 @@ export class RegisterComponent extends BaseSandboxComponent<AuthSandbox> impleme
   }
 
   public register() {
-    this.sandbox.register(this.model);
+    if (this.registerForm.valid) {
+      this.model = Object.assign({}, this.registerForm.value);
+      this.sandbox.register(this.model);
+    }
   }
 
   public cancel() {
@@ -62,5 +77,20 @@ export class RegisterComponent extends BaseSandboxComponent<AuthSandbox> impleme
 
   private _clearForm() {
     this.model = {};
+  }
+
+  private _buildForm() {
+    this.registerForm = this._formBuilder.group({
+      gender: ["male"],
+      username: ["", Validators.required],
+      knownAs: ["", Validators.required],
+      dateOfBirth: [null, Validators.required],
+      city: ["", Validators.required],
+      country: ["", Validators.required],
+      password: ["", [Validators.required, Validators.maxLength(20), Validators.minLength(6)]],
+      confirmPassword: ["", Validators.required]
+    }, {
+      validator: controlMatch("password", "confirmPassword")
+    });
   }
 }

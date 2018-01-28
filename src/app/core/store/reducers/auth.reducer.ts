@@ -3,6 +3,7 @@ import {isNullOrUndefined} from "util";
 import {Token} from "../../models/token.model";
 import {ModelStateError} from "@core/models/model-state-error.model";
 import {User} from "@core/models/user.model";
+import {transformUserPhotoUrl} from "@core/helpers";
 
 export interface State {
   loading: boolean;
@@ -57,7 +58,7 @@ export function reducer(state = INITIAL_STATE, action: actions.Actions): State {
       return { ...state, loading: true, loaded: false, failed: false };
 
     case actions.ActionTypes.DO_LOAD_USER_SUCCESS:
-      return { ...state, loading: false, loaded: true, failed: false, user: action.payload };
+      return { ...state, loading: false, loaded: true, failed: false, user: transformUserPhotoUrl(action.payload) };
 
     case actions.ActionTypes.DO_LOAD_USER_FAIL:
       return { ...state, loading: false, loaded: false, failed: true, user: null, token: null };

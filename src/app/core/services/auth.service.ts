@@ -16,7 +16,7 @@ export const AUTH_SERVICE = new InjectionToken<IAuthService>("IAuthService");
 
 export interface IAuthService {
   login(model: LoginRequest): Observable<{token: Token, user: User}>;
-  register(model: RegistrationRequest): Observable<void>;
+  register(model: RegistrationRequest): Observable<User>;
   loadTokenIfValid(): Observable<Token>;
   logout(): Observable<void>;
 }
@@ -40,7 +40,7 @@ export class AuthService implements IAuthService {
       });
   }
 
-  public register(model: RegistrationRequest): Observable<any> {
+  public register(model: RegistrationRequest): Observable<User> {
     return this._networkService.post(AuthService.ENDPOINT_REGISTER, model);
   }
 

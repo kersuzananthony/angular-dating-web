@@ -1,6 +1,7 @@
 import {User} from "@core/models/user.model";
 import * as membersActions from "../actions/members.action";
 import {isNullOrUndefined} from "util";
+import {transformUserPhotoUrl} from "@core/helpers";
 
 export interface State {
   loading: boolean;
@@ -24,7 +25,8 @@ export function reducer(state = INITIAL_STATE, action: membersActions.Actions): 
       return {...INITIAL_STATE, loading: true };
 
     case membersActions.ActionTypes.DO_FETCH_SUCCESS:
-      return { ...state, loading: false, loaded: true, failed: false, data: action.payload };
+      const data = action.payload.map(m => transformUserPhotoUrl(m));
+      return { ...state, loading: false, loaded: true, failed: false, data };
 
     case membersActions.ActionTypes.DO_FETCH_FAIL:
       return { ...state, loading: false, loaded: false, failed: true, data: null };

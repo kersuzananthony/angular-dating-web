@@ -1,14 +1,72 @@
-<form #registerForm="ngForm" (ngSubmit)="register()">
+<form [formGroup]="registerForm" (ngSubmit)="register()">
 	<h2 class="text-center text-primary">Sign Up</h2>
 	<hr>
-	<div class="form-group">
-		<input type="text" class="form-control" placeholder="Username" required name="username" [(ngModel)]="model.username">
+  <div class="form-group">
+    <label class="control-label" style="margin-right:10px">I am a: </label>
+    <label class="radio-inline">
+      <input type="radio" value="male" formControlName="gender">Male
+    </label>
+    <label class="radio-inline">
+      <input type="radio" value="female" formControlName="gender">Female
+    </label>
+    <app-model-state-error [state]="modelStateError" [key]="'gender'"></app-model-state-error>
+  </div>
+
+  <div class="form-group" [ngClass]="{'has-error': registerForm.get('username').errors && registerForm.get('username').touched}">
+		<input type="text" class="form-control" placeholder="Username" name="username" formControlName="username">
 		<app-model-state-error [state]="modelStateError" [key]="'username'"></app-model-state-error>
+    <p class="alert alert-danger" *ngIf="registerForm.get('username').hasError('required') && registerForm.get('username').touched">
+      Username is required
+    </p>
 	</div>
-	<div class="form-group">
-		<input type="password" class="form-control" placeholder="Password" required name="password" [(ngModel)]="model.password">
+
+  <div class="form-group" [ngClass]="{'has-error': registerForm.get('knownAs').touched && registerForm.get('knownAs').hasError('required')}">
+    <input class="form-control" placeholder="Known as" formControlName="knownAs">
+    <app-model-state-error [state]="modelStateError" [key]="'knownAs'"></app-model-state-error>
+    <p class="alert alert-danger" *ngIf="registerForm.get('knownAs').touched && registerForm.get('knownAs').hasError('required')">Known as is required</p>
+  </div>
+
+  <div class="form-group" [ngClass]="{'has-error': registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')}">
+    <input class="form-control" type="text" bsDatepicker [bsConfig]="bsConfig" placeholder="Date of Birth" formControlName="dateOfBirth">
+    <app-model-state-error [state]="modelStateError" [key]="'dateOfBirth'"></app-model-state-error>
+    <p class="alert alert-danger" *ngIf="registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')">Date of birth is required</p>
+  </div>
+
+  <div class="form-group" [ngClass]="{'has-error': registerForm.get('city').touched && registerForm.get('city').hasError('required')}">
+    <input class="form-control" placeholder="City" formControlName="city">
+    <app-model-state-error [state]="modelStateError" [key]="'city'"></app-model-state-error>
+    <p class="alert alert-danger" *ngIf="registerForm.get('city').touched && registerForm.get('city').hasError('required')">City is required</p>
+  </div>
+
+  <div class="form-group" [ngClass]="{'has-error': registerForm.get('country').touched && registerForm.get('country').hasError('required')}">
+    <input class="form-control" placeholder="Country" formControlName="country">
+    <app-model-state-error [state]="modelStateError" [key]="'country'"></app-model-state-error>
+    <p class="alert alert-danger" *ngIf="registerForm.get('country').touched && registerForm.get('country').hasError('required')">Country is required</p>
+  </div>
+
+  <div class="form-group">
+		<input type="password" class="form-control" placeholder="Password" required name="password" formControlName="password">
 		<app-model-state-error [state]="modelStateError" [key]="'password'"></app-model-state-error>
+    <p class="alert alert-danger" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">
+      Password is required
+    </p>
+    <p class="alert alert-danger" *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched">
+      Must have more than 4 characters.
+    </p>
+    <p class="alert alert-danger" *ngIf="registerForm.get('password').hasError('maxlength') && registerForm.get('password').touched">
+      Must have less than 20 characters.
+    </p>
 	</div>
+  <div class="form-group">
+    <input type="password" class="form-control" placeholder="Confirm Password" required name="confirm-password" formControlName="confirmPassword">
+    <app-model-state-error [state]="modelStateError" [key]="'confirmPassword'"></app-model-state-error>
+    <p class="alert alert-danger" *ngIf="registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched">
+      Confirm Password is required
+    </p>
+    <p class="alert alert-danger" *ngIf="!registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched && registerForm.hasError('controlMatch')">
+      Password and Confirm Password must be the same.
+    </p>
+  </div>
 	<div class="form-group text-center">
 		<button class="btn btn-success" type="submit" [disabled]="!registerForm.valid">Register</button>
 		<button class="btn btn-default" type="button" (click)="cancel()">Cancel</button>

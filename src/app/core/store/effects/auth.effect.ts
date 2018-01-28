@@ -72,9 +72,16 @@ export class AuthEffects {
       .map((action: actions.DoRegisterAction) => action.payload)
       .switchMap(payload => {
         return this._authService.register(payload)
-          .map(() => new actions.DoRegisterSuccessAction())
+          .map(() => new actions.DoRegisterSuccessAction(payload))
           .catch(err => of(new actions.DoRegisterFailAction(err)));
       });
+  }
+
+  @Effect()
+  public doRegisterSuccess(): Observable<Action> {
+    return this._actions$.ofType(actions.ActionTypes.DO_REGISTER_SUCCESS)
+      .map((action: actions.DoRegisterSuccessAction) => action.payload)
+      .map(payload => new actions.DoLoginAction(payload));
   }
 
   /**

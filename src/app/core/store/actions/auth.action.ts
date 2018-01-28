@@ -103,7 +103,7 @@ export class DoRegisterAction implements Action {
 export class DoRegisterSuccessAction implements Action {
   public readonly type = ActionTypes.DO_REGISTER_SUCCESS;
 
-  constructor(public payload: any = null) {}
+  constructor(public payload: RegistrationRequest = null) {}
 }
 
 export class DoRegisterFailAction implements Action {

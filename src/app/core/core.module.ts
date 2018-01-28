@@ -26,7 +26,7 @@ import {AuthEffects} from "./store/effects/auth.effect";
 import {MembersEffects} from "@core/store/effects/members.effect";
 import {MemberDetailEffects} from "@core/store/effects/member-detail.effect";
 import {MemberEditEffects} from "@core/store/effects/member-edit.effect";
-import {BsDropdownModule, TabsModule} from "ngx-bootstrap";
+import {BsDatepickerModule, BsDropdownModule, TabsModule} from "ngx-bootstrap";
 
 import {AuthSandbox} from "@app/features/auth/auth.sandbox"; // Prevent duplicate services
 
@@ -40,6 +40,7 @@ export function jwtTokenGetter() {
   imports: [
     HttpClientModule,
     BsDropdownModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TabsModule.forRoot(),
     JwtModule.forRoot({
       config: {
