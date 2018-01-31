@@ -16,7 +16,7 @@ export class MemberListResolver implements Resolve<QueryResponse<User>> {
   constructor(private _membersSandbox: MembersSandbox) {}
 
   public resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<QueryResponse<User>> {
-    this._membersSandbox.loadUsers();
+    this._membersSandbox.doLoadQuery(); // Init UserQuery State.
 
     return this._waitForResponse();
   }

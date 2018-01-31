@@ -11,14 +11,33 @@ export interface State {
   failed: boolean;
   data: QueryResponse<User>;
   query: UserQuery;
+  defaults: {gender: {label: string, key: string}[]};
 }
+
+export const INITIAL_FILTER: UserQuery = {
+  minAge: 18,
+  maxAge: 99,
+  sortBy: "active"
+};
+
+export const INITIAL_USER_QUERY: UserQuery = {
+  page: 1,
+  pageSize: 20,
+  ...INITIAL_FILTER
+};
 
 const INITIAL_STATE: State = {
   loading:    false,
   loaded:     false,
   failed:     false,
   data:       null,
-  query:      {page: 1}
+  query:      {page: 1},
+  defaults: {
+    gender: [
+      {label: "Males", key: "male"},
+      {label: "Females", key: "female"}
+    ]
+  }
 };
 
 export function reducer(state = INITIAL_STATE, action: membersActions.Actions): State {
@@ -43,14 +62,19 @@ export function reducer(state = INITIAL_STATE, action: membersActions.Actions): 
       const newQuery = isNullOrUndefined(state.query) ? { ...action.payload } : { ...state.query, ...action.payload };
       return { ...state, query: newQuery };
 
+    case membersActions.ActionTypes.DO_UNLOAD_QUERY:
+      return { ...state, query: { ...INITIAL_USER_QUERY }};
+
     default:
       return { ...state };
   }
 }
 
-export const getData    = (state: State) => state.data;
-export const getLoading = (state: State) => state.loading;
-export const getLoaded  = (state: State) => state.loaded;
-export const getFailed  = (state: State) => state.failed;
-export const getQuery   = (state: State) => state.query;
+export const getData            = (state: State) => state.data;
+export const getLoading         = (state: State) => state.loading;
+export const getLoaded          = (state: State) => state.loaded;
+export const getFailed          = (state: State) => state.failed;
+export const getQuery           = (state: State) => state.query;
+export const getDefaultsGender  = (state: State) => state.defaults.gender;
+
 

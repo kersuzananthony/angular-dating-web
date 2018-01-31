@@ -3,9 +3,12 @@ import {IUserService, USER_SERVICE} from "@core/services/user.service";
 import {Actions, Effect} from "@ngrx/effects";
 import {Observable} from "rxjs/Observable";
 import {Action, Store} from "@ngrx/store";
-import * as store from "@core/store";
-import * as membersActions from "@core/store/actions/members.action";
 import {of} from "rxjs/observable/of";
+import {isNullOrUndefined} from "util";
+import {INITIAL_FILTER, INITIAL_USER_QUERY} from "../reducers/members.reducer";
+import * as membersActions from "@core/store/actions/members.action";
+import * as store from "@core/store";
+import * as User from "@core/models/user.model";
 
 @Injectable()
 export class MembersEffects {
@@ -29,5 +32,21 @@ export class MembersEffects {
   public doUpdateQuery$(): Observable<Action> {
     return this._actions$.ofType(membersActions.ActionTypes.DO_UPDATE_QUERY)
       .map(() => new membersActions.DoFetchAction());
+  }
+
+  @Effect()
+  public doLoadQuery$(): Observable<Action> {
+    return this._actions$.ofType(membersActions.ActionTypes.DO_LOAD_QUERY)
+      .mergeMap(() => this._appState$.select(store.getAuthUser).take(1))
+      .map(user => !isNullOrUndefined(user) ? (user.gender === User.MALE ? User.FEMALE : User.MALE) : User.MALE)
+      .map(gender => new membersActions.DoUpdateQueryAction({...INITIAL_USER_QUERY, gender}));
+  }
+
+  @Effect()
+  public doResetFilter$(): Observable<Action> {
+    return this._actions$.ofType(membersActions.ActionTypes.DO_RESET_FILTERS)
+      .mergeMap(() => this._appState$.select(store.getAuthUser).take(1))
+      .map(user => !isNullOrUndefined(user) ? (user.gender === User.MALE ? User.FEMALE : User.MALE) : User.MALE)
+      .map(gender => new membersActions.DoUpdateQueryAction({...INITIAL_FILTER, gender}));
   }
 }

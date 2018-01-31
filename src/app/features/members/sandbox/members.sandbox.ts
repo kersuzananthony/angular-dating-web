@@ -17,6 +17,7 @@ export class MembersSandbox extends BaseSandbox {
   public membersFailed$   = this._appState$.select(store.getMembersFailed);
   public membersQuery$    = this._appState$.select(store.getMembersQuery);
   public membersLoading$  = this._appState$.select(store.getMembersLoading);
+  public membersDefaultGenders$ = this._appState$.select(store.getMembersDefaultGenders);
 
   constructor(protected _appState$: Store<store.State>) {
     super(_appState$);
@@ -28,14 +29,22 @@ export class MembersSandbox extends BaseSandbox {
     this._registerEvent(MembersSandbox.LOAD_FAILED_KEY, this._loadFailedSubscription.bind(this));
   }
 
-  public loadUsers(): void {
-    this._appState$.dispatch(new membersActions.DoFetchAction());
+  public doLoadQuery(): void {
+    this._appState$.dispatch(new membersActions.DoLoadQueryAction());
+  }
+
+  public doUnloadQuery(): void {
+    this._appState$.dispatch(new membersActions.DoUnloadQueryAction());
   }
 
   public updateQuery(query: UserQuery): void {
     if (isNullOrUndefined(query)) return;
 
-    this._appState$.dispatch(new membersActions.DoUpdateQuery(query));
+    this._appState$.dispatch(new membersActions.DoUpdateQueryAction(query));
+  }
+
+  public resetFilter(): void {
+    this._appState$.dispatch(new membersActions.DoResetFiltersAction());
   }
 
   private _loadFailedSubscription(): Subscription {

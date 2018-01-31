@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule} from "@angular/router";
-import {BsDatepickerModule, BsDropdownModule, PaginationModule, TabsModule} from "ngx-bootstrap";
+import {BsDatepickerModule, BsDropdownModule, ButtonsModule, PaginationModule, TabsModule} from "ngx-bootstrap";
 import {NgxGalleryModule} from "ngx-gallery";
 import {LoadingBarHttpClientModule} from "@ngx-loading-bar/http-client";
 import {LoadingBarRouterModule} from "@ngx-loading-bar/router";
@@ -16,6 +16,7 @@ import {PipeModule} from "@shared/pipe/pipe.module";
     BsDropdownModule,
     BsDatepickerModule,
     PaginationModule,
+    ButtonsModule,
     TabsModule,
     NgxGalleryModule,
     FileUploadModule,
@@ -30,6 +31,7 @@ import {PipeModule} from "@shared/pipe/pipe.module";
     BsDropdownModule,
     BsDatepickerModule,
     PaginationModule,
+    ButtonsModule,
     TabsModule,
     NgxGalleryModule,
     FileUploadModule,

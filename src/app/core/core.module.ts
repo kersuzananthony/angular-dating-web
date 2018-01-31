@@ -1,5 +1,5 @@
 import {ModuleWithProviders, NgModule, Optional, SkipSelf} from "@angular/core";
-import {BsDatepickerModule, BsDropdownModule, PaginationModule, TabsModule} from "ngx-bootstrap";
+import {BsDatepickerModule, BsDropdownModule, ButtonsModule, PaginationModule, TabsModule} from "ngx-bootstrap";
 import {HAMMER_GESTURE_CONFIG} from "@angular/platform-browser";
 import {ApplicationHammerConfig} from "./config/application-hammer.config";
 import {StoreModule} from "@ngrx/store";
@@ -42,6 +42,7 @@ export function jwtTokenGetter() {
     BsDropdownModule.forRoot(),
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
+    ButtonsModule.forRoot(),
     TabsModule.forRoot(),
     JwtModule.forRoot({
       config: {

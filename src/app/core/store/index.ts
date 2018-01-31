@@ -50,6 +50,7 @@ export const getMembersLoading  = createSelector(getMembersState, fromMembers.ge
 export const getMembersLoaded   = createSelector(getMembersState, fromMembers.getLoaded);
 export const getMembersFailed   = createSelector(getMembersState, fromMembers.getFailed);
 export const getMembersQuery    = createSelector(getMembersState, fromMembers.getQuery);
+export const getMembersDefaultGenders = createSelector(getMembersState, fromMembers.getDefaultsGender);
 
 /**
  * MemberDetail store functions

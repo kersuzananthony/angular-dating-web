@@ -1,5 +1,8 @@
 import {Photo} from "./photo.model";
 
+export const MALE = "male";
+export const FEMALE = "female";
+
 export interface User {
   id: number;
   username: string;
