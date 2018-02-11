@@ -42,8 +42,12 @@ export class NetworkErrorHandler implements INetworkErrorHandler {
   }
 
   private _handleBadRequest(err: HttpErrorResponse): Observable<any> {
-    const modelStateError = new ModelStateError(err.error);
-    return Observable.throw(modelStateError);
+    if (typeof err.error === "object") {
+      const modelStateError = new ModelStateError(err.error);
+      return Observable.throw(modelStateError);
+    }
+
+    return Observable.throw(err.error);
   }
 
   private _handleUnauthorized(err: HttpErrorResponse): Observable<any> {

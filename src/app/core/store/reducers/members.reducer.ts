@@ -12,12 +12,25 @@ export interface State {
   data: QueryResponse<User>;
   query: UserQuery;
   defaults: {gender: {label: string, key: string}[]};
+  like: {
+    user: User,
+    errorMessage: string,
+    success: boolean,
+    failed: boolean
+  };
 }
 
 export const INITIAL_FILTER: UserQuery = {
   minAge: 18,
   maxAge: 99,
   sortBy: "active"
+};
+
+export const INITIAL_LIKE = {
+  user: null,
+  errorMessage: null,
+  success: false,
+  failed: false
 };
 
 export const INITIAL_USER_QUERY: UserQuery = {
@@ -37,6 +50,9 @@ const INITIAL_STATE: State = {
       {label: "Males", key: "male"},
       {label: "Females", key: "female"}
     ]
+  },
+  like: {
+    ...INITIAL_LIKE
   }
 };
 
@@ -63,7 +79,16 @@ export function reducer(state = INITIAL_STATE, action: membersActions.Actions): 
       return { ...state, query: newQuery };
 
     case membersActions.ActionTypes.DO_UNLOAD_QUERY:
-      return { ...state, query: { ...INITIAL_USER_QUERY }};
+      return { ...state, query: { ...INITIAL_USER_QUERY }, like: { ...INITIAL_LIKE }};
+
+    case membersActions.ActionTypes.DO_LIKE:
+      return { ...state, like: { errorMessage: null, failed: false, success: false, user: action.payload } };
+
+    case membersActions.ActionTypes.DO_LIKE_SUCCESS:
+      return { ...state, like: { ...state.like, errorMessage: null, failed: false, success: true }};
+
+    case membersActions.ActionTypes.DO_LIKE_FAIL:
+      return { ...state, like: { errorMessage: action.payload, failed: true, success: false, user: null }};
 
     default:
       return { ...state };
@@ -76,5 +101,10 @@ export const getLoaded          = (state: State) => state.loaded;
 export const getFailed          = (state: State) => state.failed;
 export const getQuery           = (state: State) => state.query;
 export const getDefaultsGender  = (state: State) => state.defaults.gender;
+export const getLikeUser        = (state: State) => state.like.user;
+export const getLikeSuccess     = (state: State) => state.like.success;
+export const getLikeFail        = (state: State) => state.like.failed;
+export const getLikeErrorMessage = (state: State) => state.like.errorMessage;
+
 
 

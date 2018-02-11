@@ -59,6 +59,10 @@ export class MemberDetailComponent extends BaseSandboxComponent<MemberDetailSand
     super.ngOnDestroy();
   }
 
+  public likeUser() {
+    this.sandbox.likeUser();
+  }
+
   private _getImages() {
     return this._user.photos.map(p => {
       return {

@@ -9,6 +9,7 @@ import {INITIAL_FILTER, INITIAL_USER_QUERY} from "../reducers/members.reducer";
 import * as membersActions from "@core/store/actions/members.action";
 import * as store from "@core/store";
 import * as User from "@core/models/user.model";
+import {getAuthToken} from "@core/store";
 
 @Injectable()
 export class MembersEffects {
@@ -48,5 +49,21 @@ export class MembersEffects {
       .mergeMap(() => this._appState$.select(store.getAuthUser).take(1))
       .map(user => !isNullOrUndefined(user) ? (user.gender === User.MALE ? User.FEMALE : User.MALE) : User.MALE)
       .map(gender => new membersActions.DoUpdateQueryAction({...INITIAL_FILTER, gender}));
+  }
+
+  @Effect()
+  public doLikeUser$(): Observable<Action> {
+    return this._actions$.ofType(membersActions.ActionTypes.DO_LIKE)
+      .mergeMap((action: membersActions.DoLikeAction) => {
+        return Observable.combineLatest(
+          of(action.payload),
+          this._appState$.select(getAuthToken).take(1)
+        );
+      })
+      .switchMap(([user, token]) => {
+        return this._userService.sendLike(token, user.id)
+          .map(() => new membersActions.DoLikeSuccessAction())
+          .catch(error => of(new membersActions.DoLikeFailAction(error || "An error occurred")));
+      });
   }
 }

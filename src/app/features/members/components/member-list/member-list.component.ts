@@ -86,6 +86,10 @@ export class MemberListComponent extends BaseSandboxComponent<MembersSandbox> im
     this.sandbox.updateQuery({...this._userQuery});
   }
 
+  public onLikeUser(user: User) {
+    this.sandbox.likeUser(user);
+  }
+
   private _stateChanged() {
     this._changeDetector.markForCheck();
   }

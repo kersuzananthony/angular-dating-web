@@ -9,6 +9,10 @@ export const ActionTypes = {
   DO_FETCH_SUCCESS: type("[Members] DoFetchSuccess"),
   DO_FETCH_FAIL:    type("[Members] DoFetchFail"),
 
+  DO_LIKE:          type("[Members] DoLike"),
+  DO_LIKE_SUCCESS:  type("[Members] DoLikeSuccess"),
+  DO_LIKE_FAIL:     type("[Members] DoLikeFail"),
+
   DO_LOAD_QUERY:    type("[Members] DoLoadQuery"),
   DO_UPDATE_QUERY:  type("[Members] DoUpdateQuery"),
   DO_RESET_FILTERS: type("[Members] DoResetFilters"),
@@ -34,6 +38,27 @@ export class DoFetchActionFail implements Action {
   public readonly type = ActionTypes.DO_FETCH_FAIL;
 
   constructor(public payload: any = null) {}
+}
+
+/**
+ * Like Actions
+ */
+export class DoLikeAction implements Action {
+  public readonly type = ActionTypes.DO_LIKE;
+
+  constructor(public payload: User) {}
+}
+
+export class DoLikeSuccessAction implements Action {
+  public readonly type = ActionTypes.DO_LIKE_SUCCESS;
+
+  constructor(public payload: any = null) {}
+}
+
+export class DoLikeFailAction implements Action {
+  public readonly type = ActionTypes.DO_LIKE_FAIL;
+
+  constructor(public payload: string = null) {}
 }
 
 /**
@@ -67,6 +92,9 @@ export type Actions
   = DoFetchAction
   | DoFetchActionSuccess
   | DoFetchActionFail
+  | DoLikeAction
+  | DoLikeSuccessAction
+  | DoLikeFailAction
   | DoUpdateQueryAction
   | DoLoadQueryAction
   | DoResetFiltersAction

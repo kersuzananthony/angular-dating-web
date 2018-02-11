@@ -8,13 +8,25 @@ export interface State {
   loaded: boolean;
   failed: boolean;
   data: User;
+  like: {
+    loading: boolean,
+    success: boolean,
+    failed: boolean,
+    errorMessage: string
+  };
 }
 
 const INITIAL_STATE: State = {
   loading:    false,
   loaded:     false,
   failed:     false,
-  data:       null
+  data:       null,
+  like: {
+    loading: false,
+    success: false,
+    failed: false,
+    errorMessage: null
+  }
 };
 
 export function reducer(state = INITIAL_STATE, action: memberDetailAction.Actions): State {
@@ -33,6 +45,15 @@ export function reducer(state = INITIAL_STATE, action: memberDetailAction.Action
     case memberDetailAction.ActionTypes.DO_UNLOAD:
       return { ...INITIAL_STATE };
 
+    case memberDetailAction.ActionTypes.DO_LIKE:
+      return { ...state, like: { loading: true, success: false, errorMessage: null, failed: false }};
+
+    case memberDetailAction.ActionTypes.DO_LIKE_SUCCESS:
+      return { ...state, like: { loading: false, success: true, errorMessage: null, failed: false }};
+
+    case memberDetailAction.ActionTypes.DO_LIKE_FAIL:
+      return { ...state, like: { loading: false, success: false, errorMessage: action.payload, failed: true }};
+
     default:
       return { ...state };
   }
@@ -42,3 +63,8 @@ export const getData    = (state: State) => state.data;
 export const getLoading = (state: State) => state.loading;
 export const getLoaded  = (state: State) => state.loaded;
 export const getFailed  = (state: State) => state.failed;
+export const getLikeLoading = (state: State) => state.like.loading;
+export const getLikeSuccess = (state: State) => state.like.success;
+export const getLikeFail    = (state: State) => state.like.failed;
+export const getLikeErrorMessage = (state: State) => state.like.errorMessage;
+

@@ -24,4 +24,20 @@ export class MemberDetailEffects {
           .catch(() => of(new memberDetailActions.DoFetchFailAction()));
       });
   }
+
+  @Effect()
+  public doLike$(): Observable<Action> {
+    return this._actions$.ofType(memberDetailActions.ActionTypes.DO_LIKE)
+      .mergeMap(() => {
+        return Observable.combineLatest(
+          this._appState$.select(store.getMembersDetailData).take(1),
+          this._appState$.select(store.getAuthToken).take(1)
+        );
+      })
+      .switchMap(([user, token]) => {
+        return this._userService.sendLike(token, user.id)
+          .map(() => new memberDetailActions.DoLikeSuccessAction())
+          .catch(err => of(new memberDetailActions.DoLikeFailAction(err || "An error occurred")));
+      });
+  }
 }

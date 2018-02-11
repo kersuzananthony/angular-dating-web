@@ -44,22 +44,30 @@ export const getAuthErrorState      = createSelector(getAuthState, fromAuth.getE
 /**
  * Members store functions
  */
-export const getMembersState    = (state: State) => state.members;
-export const getMembersData     = createSelector(getMembersState, fromMembers.getData);
-export const getMembersLoading  = createSelector(getMembersState, fromMembers.getLoading);
-export const getMembersLoaded   = createSelector(getMembersState, fromMembers.getLoaded);
-export const getMembersFailed   = createSelector(getMembersState, fromMembers.getFailed);
-export const getMembersQuery    = createSelector(getMembersState, fromMembers.getQuery);
+export const getMembersState          = (state: State) => state.members;
+export const getMembersData           = createSelector(getMembersState, fromMembers.getData);
+export const getMembersLoading        = createSelector(getMembersState, fromMembers.getLoading);
+export const getMembersLoaded         = createSelector(getMembersState, fromMembers.getLoaded);
+export const getMembersFailed         = createSelector(getMembersState, fromMembers.getFailed);
+export const getMembersQuery          = createSelector(getMembersState, fromMembers.getQuery);
+export const getMembersLikeUser       = createSelector(getMembersState, fromMembers.getLikeUser);
+export const getMembersLikeSuccess    = createSelector(getMembersState, fromMembers.getLikeSuccess);
+export const getMembersLikeFail       = createSelector(getMembersState, fromMembers.getLikeFail);
+export const getMembersLikeErrorMessage = createSelector(getMembersState, fromMembers.getLikeErrorMessage);
 export const getMembersDefaultGenders = createSelector(getMembersState, fromMembers.getDefaultsGender);
 
 /**
  * MemberDetail store functions
  */
-export const getMemberDetailState   = (state: State) => state.memberDetail;
-export const getMembersDetailData   = createSelector(getMemberDetailState, fromMemberDetail.getData);
-export const getMemberDetailLoading = createSelector(getMemberDetailState, fromMemberDetail.getLoading);
-export const getMemberDetailLoaded  = createSelector(getMemberDetailState, fromMemberDetail.getLoaded);
-export const getMemberDetailFailed  = createSelector(getMemberDetailState, fromMemberDetail.getFailed);
+export const getMemberDetailState       = (state: State) => state.memberDetail;
+export const getMembersDetailData       = createSelector(getMemberDetailState, fromMemberDetail.getData);
+export const getMemberDetailLoading     = createSelector(getMemberDetailState, fromMemberDetail.getLoading);
+export const getMemberDetailLoaded      = createSelector(getMemberDetailState, fromMemberDetail.getLoaded);
+export const getMemberDetailFailed      = createSelector(getMemberDetailState, fromMemberDetail.getFailed);
+export const getMemberDetailLikeLoading = createSelector(getMemberDetailState, fromMemberDetail.getLikeLoading);
+export const getMemberDetailLikeSuccess = createSelector(getMemberDetailState, fromMemberDetail.getLikeSuccess);
+export const getMemberDetailLikeFail    = createSelector(getMemberDetailState, fromMemberDetail.getLikeFail);
+export const getMemberDetailLikeError   = createSelector(getMemberDetailState, fromMemberDetail.getLikeErrorMessage);
 
 /**
  * MemberEdit store functions
